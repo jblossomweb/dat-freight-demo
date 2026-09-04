@@ -43,7 +43,7 @@ const reactRules = {
 };
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(['dist', 'src/routeTree.gen.ts']),
   {
     files: ['**/*.{js,mjs,cjs}'],
     extends: [js.configs.recommended],

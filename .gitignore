@@ -147,6 +147,9 @@ dist
 dist-ssr
 *.local
 
+# TanStack Router build and dev cache
+.tanstack
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
