@@ -6,6 +6,7 @@ import reactX from 'eslint-plugin-react-x';
 import reactDom from 'eslint-plugin-react-dom';
 import tseslint from 'typescript-eslint';
 import stylistic from '@stylistic/eslint-plugin';
+import jsxA11y from 'eslint-plugin-jsx-a11y';
 import { defineConfig, globalIgnores } from 'eslint/config';
 
 const jsRules = {
@@ -34,12 +35,18 @@ const tsRules = {
 };
 
 const reactRules = {
+  // Stylistic rules for JSX
   '@stylistic/jsx-max-props-per-line': [
     'error',
     { maximum: { single: 3, multi: 1 } },
   ],
   '@stylistic/jsx-first-prop-new-line': ['error', 'multiline-multiprop'],
   '@stylistic/jsx-closing-bracket-location': ['error', 'line-aligned'],
+
+  // Accessibility rules for JSX
+  ...jsxA11y.flatConfigs.recommended.rules,
+  'jsx-a11y/anchor-is-valid': 'error',
+  'jsx-a11y/no-autofocus': 'warn',
 };
 
 export default defineConfig([
@@ -68,7 +75,10 @@ export default defineConfig([
       reactHooks.configs.flat.recommended,
       reactRefresh.configs.vite,
     ],
-    plugins: { '@stylistic': stylistic },
+    plugins: {
+      '@stylistic': stylistic,
+      'jsx-a11y': jsxA11y,
+    },
     languageOptions: {
       globals: globals.browser,
       parserOptions: {
