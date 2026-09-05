@@ -1,14 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import Home from '../pages/Home';
+import HomePage from '../pages/HomePage';
 
 export const Route = createFileRoute('/')({
-  component: IndexComponent,
+  staticData: {
+    title: 'Home Page',
+  },
+  component: () => <HomePage />,
 });
-
-// eslint-disable-next-line react-refresh/only-export-components
-function IndexComponent() {
-  return (
-    <Home />
-  );
-}
