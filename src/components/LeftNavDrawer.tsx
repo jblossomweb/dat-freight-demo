@@ -7,6 +7,7 @@ import List from '@mui/material/List';
 
 import PeopleIcon from '@mui/icons-material/People';
 import SettingsIcon from '@mui/icons-material/Settings';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 
 import NavItem from './NavItem';
 
@@ -44,6 +45,12 @@ const LeftNavDrawer: React.FC<LeftNavDrawerProps> = ({
           link="/"
           active={currentPath === '/'}
           icon={<PeopleIcon />}
+        />
+        <NavItem
+          title="Freight Loads"
+          link="/freight-loads"
+          active={currentPath === '/freight-loads'}
+          icon={<LocalShippingIcon />}
         />
         <NavItem
           title="Style Guide"

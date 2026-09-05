@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as FreightLoadsRouteImport } from './routes/freight-loads'
 import { Route as StyleGuideRouteImport } from './routes/style-guide'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FreightLoadsRoute = FreightLoadsRouteImport.update({
+  id: '/freight-loads',
+  path: '/freight-loads',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StyleGuideRoute = StyleGuideRouteImport.update({
@@ -25,27 +31,31 @@ const StyleGuideRoute = StyleGuideRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/freight-loads': typeof FreightLoadsRoute
   '/style-guide': typeof StyleGuideRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/freight-loads': typeof FreightLoadsRoute
   '/style-guide': typeof StyleGuideRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/freight-loads': typeof FreightLoadsRoute
   '/style-guide': typeof StyleGuideRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/style-guide'
+  fullPaths: '/' | '/freight-loads' | '/style-guide'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/style-guide'
-  id: '__root__' | '/' | '/style-guide'
+  to: '/' | '/freight-loads' | '/style-guide'
+  id: '__root__' | '/' | '/freight-loads' | '/style-guide'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  FreightLoadsRoute: typeof FreightLoadsRoute
   StyleGuideRoute: typeof StyleGuideRoute
 }
 
@@ -56,6 +66,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/freight-loads': {
+      id: '/freight-loads'
+      path: '/freight-loads'
+      fullPath: '/freight-loads'
+      preLoaderRoute: typeof FreightLoadsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/style-guide': {
@@ -70,6 +87,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  FreightLoadsRoute: FreightLoadsRoute,
   StyleGuideRoute: StyleGuideRoute,
 }
 export const routeTree = rootRouteImport
