@@ -1,7 +1,6 @@
-import type { GridApi } from 'ag-grid-community';
-import type { FilterModel } from '../types/Filter';
+import type { Load } from '../types/Load';
 
-import { useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import Box from '@mui/material/Box';
 
@@ -11,17 +10,14 @@ import FilterPills from '../components/FilterPills';
 
 import { currencyFormatter, numberFormatter } from '../utils/gridFormatters';
 import { dateStringComparator } from '../utils/gridComparators';
+import useFilterModel from '../hooks/useFilterModel';
 
 import loadData from '../data/10000Loads.json';
 
-type Loads = typeof loadData.loads;
-type Load = Loads[number];
-
 function FreightLoadsPage() {
-  const rowData = loadData.loads;
+  const rowData = loadData.loads as Load[];
   const [searchQuery, setSearchQuery] = useState('');
-  const [filterModel, setFilterModel] = useState<FilterModel>({});
-  const gridApiRef = useRef<GridApi<Load> | null>(null);
+  const filterModel = useFilterModel<Load>();
 
   const initialSort = useMemo<GridSortRule[]>(() => [
     { colId: 'id', sort: 'asc' },
@@ -39,21 +35,21 @@ function FreightLoadsPage() {
           gap: 2,
         }}
       >
-        <SearchInput onSearchChange={setSearchQuery} />
+        <SearchInput
+          placeholder="Search Loads..."
+          ariaLabel="Search Loads"
+          onSearchChange={setSearchQuery}
+        />
       </Box>
 
       <FilterPills
-        filters={filterModel}
-        onDeleteFilter={(field) => {
-          const nextModel = { ...gridApiRef.current?.getFilterModel() };
-          // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-          delete nextModel[field];
-          gridApiRef.current?.setFilterModel(nextModel);
-        }}
+        filters={filterModel.filters}
+        onDeleteFilter={filterModel.onDeleteFilter}
       />
 
       <TableGrid<Load>
         rowData={rowData}
+        rowUnits="loads"
         columnDefs={[
           { field: 'id', headerName: 'ID', width: 120 },
           { field: 'companyName', headerName: 'Company', width: 200 },
@@ -89,12 +85,12 @@ function FreightLoadsPage() {
           },
           { field: 'status', headerName: 'Status', width: 120 },
         ]}
+        pageSize={25}
+        pageSizes={[10, 25, 50, 100, 250, 500]}
         searchQuery={searchQuery}
         sortModel={initialSort}
-        onGridReady={(api) => {
-          gridApiRef.current = api;
-        }}
-        onFilterChange={setFilterModel}
+        onGridReady={filterModel.onGridReady}
+        onFilterChange={filterModel.onFilterChange}
       />
     </Box>
   );
