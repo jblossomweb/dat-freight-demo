@@ -12,10 +12,10 @@ import { currencyFormatter, numberFormatter } from '../utils/gridFormatters';
 import { dateStringComparator } from '../utils/gridComparators';
 import useFilterModel from '../hooks/useFilterModel';
 
-import loadData from '../data/10000Loads.json';
+import loadData from '../data/100000Loads.json';
 
 function FreightLoadsPage() {
-  const rowData = loadData.loads as Load[];
+  const rowData = (loadData as { loads: Load[] }).loads;
   const [searchQuery, setSearchQuery] = useState('');
   const filterModel = useFilterModel<Load>();
 
