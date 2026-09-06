@@ -24,21 +24,27 @@ export interface GridSortRule {
 
 interface TableGridProps<TData> {
   rowData: TData[] | null;
+  rowUnits?: string;
   columnDefs: ColDef<TData>[];
   sortModel?: GridSortRule[];
   searchQuery?: string;
   disableFiltering?: boolean;
   height?: number | string;
+  pageSize?: number;
+  pageSizes?: number[] | boolean;
   onGridReady?: (api: GridApi<TData>) => void;
   onFilterChange?: (filterModel: FilterModel) => void;
 }
 
 function TableGrid<TData>({
   rowData,
+  rowUnits = 'rows',
   columnDefs,
   searchQuery = '',
   disableFiltering = false,
   height = '100%',
+  pageSize,
+  pageSizes,
   onGridReady,
   onFilterChange,
 }: TableGridProps<TData>) {
@@ -98,9 +104,21 @@ function TableGrid<TData>({
         animateRows={true}
         suppressCellFocus={true}
         ensureDomOrder={true}
+        pagination={!!pageSize && !!pageSizes}
+        paginationPageSize={pageSize}
+        paginationPageSizeSelector={pageSizes}
       />
-      <Box sx={{ px: 2, py: 1, color: 'text.secondary', fontSize: '0.875rem' }}>
-        Showing {formatNumber(displayedRowCount)} of {formatNumber(totalRowCount)} rows
+      <Box
+        sx={{
+          px: 2,
+          py: 1,
+          width: '100%',
+          textAlign: 'right',
+          color: 'text.secondary',
+          fontSize: '0.875rem',
+        }}
+      >
+        Showing {formatNumber(displayedRowCount)} of {formatNumber(totalRowCount)} {rowUnits}
       </Box>
     </Box>
   );

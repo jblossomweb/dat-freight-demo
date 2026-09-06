@@ -10,6 +10,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 interface SearchInputProps {
   onSearchChange: (value: string) => void;
   placeholder?: string;
+  ariaLabel?: string;
   debounceMs?: number;
   width?: number | string;
 }
@@ -17,6 +18,7 @@ interface SearchInputProps {
 const SearchInput: React.FC<SearchInputProps> = ({
   onSearchChange,
   placeholder = 'Search...',
+  ariaLabel = 'Search',
   debounceMs = 250,
   width = '100%',
 }) => {
@@ -59,6 +61,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
               </IconButton>
             </InputAdornment>
           ) : null,
+          'aria-label': ariaLabel,
         },
       }}
       sx={{
