@@ -1,4 +1,18 @@
+import type { StatusPalette, EquipmentPalette } from './types/Theme';
+
 import { createTheme } from '@mui/material/styles';
+
+declare module '@mui/material/styles' {
+  interface Palette {
+    equipment: EquipmentPalette;
+    status: StatusPalette;
+  }
+
+  interface PaletteOptions {
+    equipment: EquipmentPalette;
+    status: StatusPalette;
+  }
+}
 
 export const accessibleTheme = createTheme({
   // compile to native CSS custom properties
@@ -14,6 +28,17 @@ export const accessibleTheme = createTheme({
         secondary: { main: '#293851', dark: '#1e293b', contrastText: '#ffffff' },
         background: { default: '#f3f4f6', paper: '#ffffff' },
         text: { primary: '#111827', secondary: '#4b5563' },
+        warning: { main: '#e65100', dark: '#ba4100' },
+        equipment: {
+          van: '#512da8',
+          flatbed: '#ad1457',
+          reefer: '#00695c',
+        },
+        status: {
+          available: 'var(--mui-palette-info-dark)',
+          inTransit: 'var(--mui-palette-warning-dark)',
+          delivered: 'var(--mui-palette-success-dark)',
+        },
       },
     },
 
@@ -24,6 +49,16 @@ export const accessibleTheme = createTheme({
         secondary: { main: '#293851', dark: '#1e293b', contrastText: '#ffffff' },
         background: { default: '#070d14', paper: '#0e1722' },
         text: { primary: '#f9fafb', secondary: '#9ca3af' },
+        equipment: {
+          van: '#b39ddb',
+          flatbed: '#f48fb1',
+          reefer: '#80cbc4',
+        },
+        status: {
+          available: 'var(--mui-palette-info-light)',
+          inTransit: 'var(--mui-palette-warning-light)',
+          delivered: 'var(--mui-palette-success-light)',
+        },
       },
     },
   },
@@ -91,6 +126,22 @@ export const accessibleTheme = createTheme({
             outline: 'var(--mui-palette-info-main)',
             outlineOffset: '2px',
           },
+        },
+      },
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        input: {
+          '&::placeholder': {
+            opacity: 0.6,
+          },
+        },
+      },
+    },
+    MuiInputAdornment: {
+      styleOverrides: {
+        root: {
+          color: 'var(--mui-palette-text-primary)',
         },
       },
     },

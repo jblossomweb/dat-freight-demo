@@ -44,7 +44,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
         input: {
           startAdornment: (
             <InputAdornment position="start">
-              <SearchIcon sx={{ color: 'text.secondary', fontSize: 20 }} />
+              <SearchIcon sx={{ fontSize: 20 }} />
             </InputAdornment>
           ),
           endAdornment: searchTerm !== '' ? (
@@ -57,7 +57,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
                 }}
                 edge="end"
               >
-                <ClearIcon sx={{ color: 'text.secondary', fontSize: 20 }} />
+                <ClearIcon sx={{ fontSize: 20 }} />
               </IconButton>
             </InputAdornment>
           ) : null,

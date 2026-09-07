@@ -14,7 +14,6 @@ interface FilterPillsProps {
 const FilterPills: React.FC<FilterPillsProps> = ( { filters, onDeleteFilter }) => (
   <Box
     sx={{
-      mb: 3,
       display: 'flex',
       flexDirection: { xs: 'column', md: 'row' },
       justifyContent: 'left',

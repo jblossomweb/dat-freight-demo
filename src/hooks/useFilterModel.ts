@@ -14,7 +14,7 @@ const useFilterModel = <T>() => {
     gridApiRef.current?.setFilterModel(nextModel);
   };
 
-  const onGridReady = (api: GridApi<T>) => {
+  const onReady = (api: GridApi<T>) => {
     gridApiRef.current = api;
   };
 
@@ -22,7 +22,7 @@ const useFilterModel = <T>() => {
 
   return {
     filters,
-    onGridReady,
+    onReady,
     onDeleteFilter,
     onFilterChange,
   };
