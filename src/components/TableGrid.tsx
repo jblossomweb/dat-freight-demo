@@ -76,6 +76,17 @@ function TableGrid<TData>({
           return true;
         }
 
+        if (
+          ['Delete', 'Backspace'].includes(params.event.key)
+            && 'getColId' in params.column
+            && params.column.isFilterAllowed()
+            && params.column.isFilterActive()
+        ) {
+          params.api.destroyFilter(params.column);
+
+          return true;
+        }
+
         return false;
       },
     }),
