@@ -1,7 +1,7 @@
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 
-interface EnumFilterSelectProps<TValue = string> {
+interface FilterValueSelectProps<TValue = string> {
   ariaLabel?: string;
   value: TValue | '';
   options: TValue[];
@@ -11,7 +11,7 @@ interface EnumFilterSelectProps<TValue = string> {
   onValueChange: (value: TValue | '') => void;
 }
 
-const EnumFilterSelect = <TValue extends string,>({
+const FilterValueSelect = <TValue extends string,>({
   ariaLabel = 'Select',
   value,
   options,
@@ -19,7 +19,7 @@ const EnumFilterSelect = <TValue extends string,>({
   emptyValueDisplay = '',
   renderValue = value => value,
   onValueChange,
-}: EnumFilterSelectProps<TValue>) => (
+}: FilterValueSelectProps<TValue>) => (
   <Select
     aria-label={ariaLabel}
     fullWidth
@@ -45,4 +45,4 @@ const EnumFilterSelect = <TValue extends string,>({
   </Select>
 );
 
-export default EnumFilterSelect;
+export default FilterValueSelect;

@@ -9,6 +9,7 @@ import { dateStringComparator } from '../utils/gridComparators';
 import TableGrid from './TableGrid';
 import StatusFilter from './StatusFilter';
 import StatusLabel from './StatusLabel';
+import EquipmentFilter from './EquipmentFilter';
 import EquipmentLabel from './EquipmentLabel';
 
 interface LoadsTableProps {
@@ -50,6 +51,7 @@ const allColumns: ColDef<Load>[] = [
     field: 'equipmentType',
     headerName: 'Type',
     width: 120,
+    filter: EquipmentFilter,
     cellRenderer: EquipmentCellRenderer,
   },
   {

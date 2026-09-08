@@ -8,14 +8,17 @@ import CloseIcon from '@mui/icons-material/Close';
 
 interface IsIsNotSelectProps {
   value: IsIsNot;
+  focusRef?: React.RefObject<HTMLDivElement | null>;
   onValueChange: (value: IsIsNot) => void;
 }
 
 const IsIsNotSelect: React.FC<IsIsNotSelectProps> = ({
   value,
+  focusRef,
   onValueChange,
 }) => (
   <Select
+    ref={focusRef}
     aria-label="Filter operator"
     fullWidth
     size="small"

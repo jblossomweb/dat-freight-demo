@@ -38,3 +38,16 @@ export interface CombinedFilterValue {
 export type Filter = FilterCondition | SetFilterValue | CombinedFilterValue;
 
 export type FilterModel = Record<string, Filter>;
+
+export interface EnumFilterCondition<Value extends string> {
+  filterType: 'text';
+  type: 'equals' | 'notEqual';
+  filter: Value;
+}
+
+export type EnumFilterModel<Value extends string> =
+  | EnumFilterCondition<Value>
+  | {
+    operator: 'AND' | 'OR';
+    conditions: EnumFilterCondition<Value>[];
+  }
