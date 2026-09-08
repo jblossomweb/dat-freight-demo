@@ -58,13 +58,13 @@ const EnumFilter = <Data, Value extends string>({
       <IsIsNotSelect
         value={enumFilter.filterMode}
         onValueChange={enumFilter.updateMode}
-        focusRef={enumFilter.firstControlRef}
       />
 
       <FilterValueSelect<Value>
         ariaLabel={ariaLabel}
         value={enumFilter.firstValue}
         options={options}
+        focusRef={enumFilter.firstControlRef}
         showEmptyValue
         renderValue={(value: Value | '') => value === ''
           ? enumFilter.filterMode === 'isNot'

@@ -5,6 +5,7 @@ interface FilterValueSelectProps<TValue = string> {
   ariaLabel?: string;
   value: TValue | '';
   options: TValue[];
+  focusRef?: React.RefObject<HTMLDivElement | null>;
   showEmptyValue?: boolean;
   emptyValueDisplay?: string;
   renderValue?: (value: TValue | '') => React.ReactNode;
@@ -15,12 +16,14 @@ const FilterValueSelect = <TValue extends string,>({
   ariaLabel = 'Select',
   value,
   options,
+  focusRef,
   showEmptyValue = false,
   emptyValueDisplay = '',
   renderValue = value => value,
   onValueChange,
 }: FilterValueSelectProps<TValue>) => (
   <Select
+    ref={focusRef}
     aria-label={ariaLabel}
     fullWidth
     size="small"

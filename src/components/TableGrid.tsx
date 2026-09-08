@@ -106,6 +106,15 @@ function TableGrid<TData>({
         borderRadius: '8px',
         overflow: 'hidden',
         bgcolor: 'background.paper',
+        // override AG Grid's default right-aligned header styles for numeric columns
+        '& .ag-right-aligned-header .ag-cell-label-container': {
+          flexDirection: 'row-reverse',
+          justifyContent: 'space-between',
+        },
+        '& .ag-right-aligned-header .ag-header-cell-text': {
+          flex: '1 1 auto',
+          textAlign: 'start',
+        },
       }}
     >
       <AgGridReact<TData>

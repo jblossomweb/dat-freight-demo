@@ -107,6 +107,8 @@ export const accessibleTheme = createTheme({
         root: {
           backgroundColor: 'var(--mui-palette-secondary-main)',
           color: 'var(--mui-palette-primary-contrastText)',
+          border: '2px solid transparent',
+          boxSizing: 'border-box',
           '&:hover': {
             backgroundColor: 'var(--mui-palette-secondary-dark)',
           },
@@ -119,12 +121,17 @@ export const accessibleTheme = createTheme({
             },
           },
           '&:focus-visible': {
-            outline: 'var(--mui-palette-info-main)',
-            outlineOffset: '2px',
+            borderColor: 'var(--mui-palette-info-main)',
+            backgroundColor: 'var(--mui-palette-secondary-main)',
+            outline: 'none',
           },
           '.MuiDrawer-paper &:focus-visible': {
-            outline: 'var(--mui-palette-info-main)',
-            outlineOffset: '2px',
+            borderColor: 'var(--mui-palette-info-main)',
+            backgroundColor: 'var(--mui-palette-secondary-main)',
+            outline: 'none',
+          },
+          '&.Mui-selected:focus-visible': {
+            backgroundColor: 'var(--mui-palette-primary-main)',
           },
         },
       },
@@ -142,6 +149,15 @@ export const accessibleTheme = createTheme({
       styleOverrides: {
         root: {
           color: 'var(--mui-palette-text-primary)',
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'var(--mui-palette-info-main)',
+          },
         },
       },
     },

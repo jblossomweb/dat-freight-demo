@@ -37,7 +37,7 @@ const ThemeToggle: React.FC = () => {
 
         '&:focus-visible': {
           outline: '2px solid',
-          outlineColor: 'primary.main',
+          outlineColor: 'info.main',
           outlineOffset: '2px',
         },
       }}
