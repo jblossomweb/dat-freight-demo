@@ -40,6 +40,12 @@ const SearchInput: React.FC<SearchInputProps> = ({
       placeholder={placeholder}
       value={searchTerm}
       onChange={(e) => { setSearchTerm(e.target.value); }}
+      onKeyDown={({ key }) => {
+        if (key === 'Escape') {
+          setSearchTerm('');
+          onSearchChange('');
+        }
+      }}
       slotProps={{
         input: {
           startAdornment: (

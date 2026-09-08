@@ -65,6 +65,19 @@ function TableGrid<TData>({
       resizable: true,
       filter: !disableFiltering,
       suppressMovable: true,
+      suppressHeaderKeyboardEvent: (params) => {
+        if (
+          params.event.key.toLowerCase() === 'f'
+            && 'getColId' in params.column
+            && params.column.isFilterAllowed()
+        ) {
+          params.api.showColumnFilter(params.column);
+
+          return true;
+        }
+
+        return false;
+      },
     }),
     [disableFiltering],
   );

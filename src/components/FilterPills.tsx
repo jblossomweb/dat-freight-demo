@@ -29,6 +29,11 @@ const FilterPills: React.FC<FilterPillsProps> = ( { filters, onDeleteFilter }) =
         onDelete={() => {
           onDeleteFilter(field);
         }}
+        onKeyDown={(event) => {
+          if (event.key === 'Delete' || event.key === 'Backspace' || event.key === 'Escape') {
+            onDeleteFilter(field);
+          }
+        }}
       />
     ))}
   </Box>
