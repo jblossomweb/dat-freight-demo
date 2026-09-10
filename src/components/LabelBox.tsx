@@ -21,6 +21,7 @@ const LabelBox: React.FC<LabelBoxProps> = ({
     sx={{
       display: 'inline-flex',
       alignItems: 'center',
+      verticalAlign: 'middle',
       gap: 0.75,
       color,
       whiteSpace: 'nowrap',
@@ -31,7 +32,7 @@ const LabelBox: React.FC<LabelBoxProps> = ({
       sx: { fontSize: 18, flexShrink: 0 },
     })}
 
-    <Typography component="span" variant="body2">
+    <Typography component="span" variant="body2" sx={{ lineHeight: 1 }}>
       {text}
     </Typography>
   </Box>

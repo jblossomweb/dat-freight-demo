@@ -36,14 +36,15 @@ const initialSort: GridSortRule[] = [
 ];
 
 const allColumns: ColDef<Load>[] = [
-  { field: 'id', headerName: 'ID', width: 120 },
+  {
+    field: 'id', headerName: 'ID', width: 120 },
   { field: 'companyName', headerName: 'Company', width: 200 },
   { field: 'origin', headerName: 'Origin', width: 160 },
   { field: 'destination', headerName: 'Destination', width: 160 },
   {
     field: 'weight',
-    headerName: 'Weight (lbs)',
-    width: 150,
+    headerName: 'Weight (pounds)',
+    width: 190,
     valueFormatter: numberFormatter<Load>,
     type: 'numericColumn',
   },
@@ -63,14 +64,14 @@ const allColumns: ColDef<Load>[] = [
   {
     field: 'price',
     headerName: 'Price (USD)',
-    width: 150,
+    width: 160,
     valueFormatter: currencyFormatter<Load>,
     type: 'numericColumn',
   },
   {
     field: 'distance',
-    headerName: 'Distance (mi)',
-    width: 150,
+    headerName: 'Distance (miles)',
+    width: 190,
     valueFormatter: numberFormatter<Load>,
     type: 'numericColumn',
   },

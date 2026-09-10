@@ -6,7 +6,7 @@ import ButtonBase from '@mui/material/ButtonBase';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 
-const ThemeToggle: React.FC = () => {
+const DarkModeToggle: React.FC = () => {
   const { mode, setMode } = useColorScheme();
 
   if (!mode) {
@@ -18,7 +18,7 @@ const ThemeToggle: React.FC = () => {
   return (
     <ButtonBase
       onClick={() => { setMode(isDarkMode ? 'light' : 'dark'); }}
-      aria-label="Toggle system interface theme mode"
+      aria-label="Dark Mode"
       aria-checked={isDarkMode}
       role="switch"
       sx={{
@@ -80,4 +80,4 @@ const ThemeToggle: React.FC = () => {
   );
 };
 
-export default ThemeToggle;
+export default DarkModeToggle;

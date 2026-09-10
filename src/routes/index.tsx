@@ -4,7 +4,7 @@ import HomePage from '../pages/HomePage';
 
 export const Route = createFileRoute('/')({
   staticData: {
-    title: 'Home Page',
+    title: 'Home',
   },
   component: () => <HomePage />,
 });

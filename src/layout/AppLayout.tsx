@@ -1,11 +1,13 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 
+import AriaAnnouncement from '../components/AriaAnnouncement';
+
 import HeaderBar from '../components/HeaderBar';
 import LeftNavDrawer from '../components/LeftNavDrawer';
 
 import LogoBox from '../components/LogoBox';
-import ThemeToggle from '../components/ThemeToggle';
+import DarkModeToggle from '../components/DarkModeToggle';
 
 const DRAWER_WIDTH = 240;
 
@@ -16,6 +18,7 @@ interface AppLayoutProps {
 }
 
 const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle, currentPath }) => {
+
   return (
     <Box sx={{
       display: 'flex',
@@ -24,11 +27,14 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle, currentPath 
       overflow: 'hidden',
     }}
     >
+      <AriaAnnouncement atomic alert>
+        {pageTitle ? `${pageTitle} page loaded` : ''}
+      </AriaAnnouncement>
 
       <HeaderBar
         title={pageTitle}
         drawerWidth={DRAWER_WIDTH}
-        actions={<ThemeToggle />}
+        actions={<DarkModeToggle />}
       />
 
       <LeftNavDrawer

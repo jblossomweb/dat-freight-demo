@@ -3,6 +3,7 @@ import MenuItem from '@mui/material/MenuItem';
 
 interface FilterValueSelectProps<TValue = string> {
   ariaLabel?: string;
+  operator?: string;
   value: TValue | '';
   options: TValue[];
   focusRef?: React.RefObject<HTMLDivElement | null>;
@@ -14,6 +15,7 @@ interface FilterValueSelectProps<TValue = string> {
 
 const FilterValueSelect = <TValue extends string,>({
   ariaLabel = 'Select',
+  operator,
   value,
   options,
   focusRef,
@@ -24,7 +26,7 @@ const FilterValueSelect = <TValue extends string,>({
 }: FilterValueSelectProps<TValue>) => (
   <Select
     ref={focusRef}
-    aria-label={ariaLabel}
+    aria-label={`${ariaLabel} ${String(operator)}`}
     fullWidth
     size="small"
     value={value}

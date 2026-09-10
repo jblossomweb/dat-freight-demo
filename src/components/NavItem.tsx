@@ -17,6 +17,7 @@ const NavItem: React.FC<NavItemProps> = ({ title, link, icon, active = false }) 
   <ListItem disablePadding sx={{ mb: 1 }}>
     <ListItemButton
       selected={active}
+      aria-current={active ? 'page' : undefined}
       component={Link}
       to={link}
       sx={{ borderRadius: 1.5 }}

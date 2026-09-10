@@ -19,10 +19,16 @@ const SearchInput: React.FC<SearchInputProps> = ({
   onSearchChange,
   placeholder = 'Search...',
   ariaLabel = 'Search',
-  debounceMs = 250,
+  debounceMs = 500,
   width = '100%',
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [hidePlaceholder, setHidePlaceholder] = useState(false);
+
+  const clearSearch = () => {
+    setSearchTerm('');
+    onSearchChange('');
+  };
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -37,13 +43,20 @@ const SearchInput: React.FC<SearchInputProps> = ({
   return (
     <TextField
       size="small"
-      placeholder={placeholder}
+      placeholder={hidePlaceholder ? '' : placeholder}
       value={searchTerm}
-      onChange={(e) => { setSearchTerm(e.target.value); }}
+      onFocus={() => {
+        setHidePlaceholder(true);
+      }}
+      onBlur={() => {
+        setHidePlaceholder(false);
+      }}
+      onChange={(e) => {
+        setSearchTerm(e.target.value);
+      }}
       onKeyDown={({ key }) => {
         if (key === 'Escape') {
-          setSearchTerm('');
-          onSearchChange('');
+          clearSearch();
         }
       }}
       slotProps={{
@@ -57,17 +70,21 @@ const SearchInput: React.FC<SearchInputProps> = ({
             <InputAdornment position="end">
               <IconButton
                 aria-label="clear search"
-                onClick={() => {
-                  setSearchTerm('');
-                  onSearchChange('');
-                }}
+                onClick={clearSearch}
                 edge="end"
               >
                 <ClearIcon sx={{ fontSize: 20 }} />
               </IconButton>
             </InputAdornment>
           ) : null,
-          'aria-label': ariaLabel,
+        },
+        htmlInput: {
+          // 'aria-label':  ariaLabel,
+          // 'aria-keyshortcuts': 'Escape',
+          // 'aria-description': 'Escape to clear search',
+          'aria-label': `${ariaLabel}. Press Escape to clear search.`,
+          // non-standard: attempt to avoid duplicate screen read if placeholder matches
+          // 'aria-placeholder': placeholder.includes(ariaLabel) ? '' : placeholder,
         },
       }}
       sx={{

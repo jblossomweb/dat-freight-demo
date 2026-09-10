@@ -62,6 +62,7 @@ const EnumFilter = <Data, Value extends string>({
 
       <FilterValueSelect<Value>
         ariaLabel={ariaLabel}
+        operator={enumFilter.filterMode}
         value={enumFilter.firstValue}
         options={options}
         focusRef={enumFilter.firstControlRef}
@@ -95,6 +96,7 @@ const EnumFilter = <Data, Value extends string>({
           {showSecondValue && (
             <FilterValueSelect<Value>
               ariaLabel={secondAriaLabel}
+              operator={enumFilter.filterMode}
               value={enumFilter.secondValue}
               options={options.filter(value => value !== enumFilter.firstValue)}
               showEmptyValue

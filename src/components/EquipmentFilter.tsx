@@ -2,6 +2,7 @@ import type { CustomFilterProps } from 'ag-grid-react';
 import type { Load, EquipmentType } from '../types/Load';
 import type { EnumFilterModel } from '../types/Filter';
 
+// import AriaAnnouncement from './AriaAnnouncement';
 import EnumFilter from './EnumFilter';
 import EquipmentLabel from './EquipmentLabel';
 
@@ -18,16 +19,21 @@ const equipmentTypes: EquipmentType[] = [
 ];
 
 const EquipmentFilter: React.FC<EquipmentFilterProps> = (props) => (
-  <EnumFilter<Load, EquipmentType>
-    {...props}
-    fieldKey="equipmentType"
-    options={equipmentTypes}
-    ariaLabel="Filter by Equipment Type"
-    secondAriaLabel="Filter by Second Equipment Type"
-    emptyValueLabel="Any Equipment Type"
-    emptyRequiredValueLabel="Select Equipment Type"
-    renderValue={(equipmentType) => <EquipmentLabel equipmentType={equipmentType} />}
-  />
+  <>
+    {/* <AriaAnnouncement>
+      Filter by Equipment Type
+    </AriaAnnouncement> */}
+    <EnumFilter<Load, EquipmentType>
+      {...props}
+      fieldKey="equipmentType"
+      options={equipmentTypes}
+      ariaLabel="Equipment Type"
+      secondAriaLabel="Second Type"
+      emptyValueLabel="Any Type"
+      emptyRequiredValueLabel="Select Type"
+      renderValue={(equipmentType) => <EquipmentLabel equipmentType={equipmentType} />}
+    />
+  </>
 );
 
 export default EquipmentFilter;

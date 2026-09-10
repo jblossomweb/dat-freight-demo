@@ -3,6 +3,7 @@ import type { FilterModel } from '../types/Filter';
 
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
+import CloseIcon from '@mui/icons-material/Close';
 
 import getFilterLabel from '../utils/getFilterLabel';
 
@@ -25,12 +26,17 @@ const FilterPills: React.FC<FilterPillsProps> = ( { filters, onDeleteFilter }) =
     {Object.keys(filters).map((field) => (
       <Chip
         key={field}
+        component="div"
         label={getFilterLabel(field, filters[field])}
         onDelete={() => {
           onDeleteFilter(field);
         }}
+        deleteIcon={<CloseIcon aria-label={`Remove ${field} filter`} />}
+        aria-keyshortcuts="Delete Backspace"
+        aria-description={`Delete or Backspace to Remove ${field} filter`}
         onKeyDown={(event) => {
-          if (event.key === 'Delete' || event.key === 'Backspace' || event.key === 'Escape') {
+          if (['Delete', 'Backspace'].includes(event.key)) {
+            event.stopPropagation(); // pop the bubble
             onDeleteFilter(field);
           }
         }}
