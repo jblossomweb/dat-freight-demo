@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import FreightLoadsPage from '../pages/FreightLoadsPage';
+import FreightLoadsPage from '@/pages/FreightLoadsPage';
 
 export const Route = createFileRoute('/freight-loads')({
   staticData: {

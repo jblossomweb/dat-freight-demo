@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import Box from '@mui/material/Box';
 
-import AriaAnnouncement from '../components/AriaAnnouncement';
+import AriaAnnouncement from '@/components/app/AriaAnnouncement';
 
-import HeaderBar from '../components/HeaderBar';
-import LeftNavDrawer from '../components/LeftNavDrawer';
+import HeaderBar from '@/components/app/HeaderBar';
+import LeftNavDrawer from '@/components/app/LeftNavDrawer';
 
-import LogoBox from '../components/LogoBox';
-import DarkModeToggle from '../components/DarkModeToggle';
+import LogoBox from '@/components/app/LogoBox';
+import DarkModeToggle from '@/components/app/DarkModeToggle';
 
 const DRAWER_WIDTH = 240;
 const DRAWER_WIDTH_COLLAPSED = 90;

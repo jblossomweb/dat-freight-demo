@@ -1,6 +1,5 @@
 import { Outlet, createRootRoute, useMatches, useLocation } from '@tanstack/react-router';
-// import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
-import AppLayout from '../layout/AppLayout';
+import AppLayout from '@/layout/AppLayout';
 
 export const Route = createRootRoute({
   component: RootComponent,
@@ -18,7 +17,6 @@ function RootComponent() {
       <AppLayout pageTitle={title} currentPath={pathname}>
         <Outlet />
       </AppLayout>
-      {/* <TanStackRouterDevtools position="bottom-right" /> */}
     </>
   );
 }

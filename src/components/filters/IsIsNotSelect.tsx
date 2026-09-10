@@ -1,4 +1,4 @@
-import type { IsIsNot } from '../types/Operators';
+import type { IsIsNot } from '@/types/Operators';
 
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';

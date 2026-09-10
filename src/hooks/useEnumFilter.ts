@@ -1,7 +1,7 @@
 import type { IDoesFilterPassParams } from 'ag-grid-community';
-import type { StringKey } from '../types/StringKey';
-import type { IsIsNot } from '../types/Operators';
-import type { EnumFilterCondition, EnumFilterModel } from '../types/Filter';
+import type { StringKey } from '@/types/StringKey';
+import type { IsIsNot } from '@/types/Operators';
+import type { EnumFilterCondition, EnumFilterModel } from '@/types/Filter';
 
 import { useGridFilter } from 'ag-grid-react';
 

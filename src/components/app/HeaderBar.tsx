@@ -31,13 +31,12 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
       color: 'text.primary',
     })}
   >
-    {/* component="header" provides semantic HTML5 validation mapping */}
     <Toolbar
       component="header"
       sx={{
         display: 'flex',
         justifyContent: 'space-between',
-        alignItems: 'center', // Centers items vertically inside the bar
+        alignItems: 'center',
         width: '100%',
       }}
     >

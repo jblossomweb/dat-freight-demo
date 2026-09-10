@@ -1,16 +1,17 @@
 import type { ColDef, GridApi } from 'ag-grid-community';
-import type { Load, LoadStatus, EquipmentType } from '../types/Load';
-import type { FilterModel } from '../types/Filter';
+import type { Load, LoadStatus, EquipmentType } from '@/types/Load';
+import type { FilterModel } from '@/types/Filter';
 import type { GridSortRule } from './TableGrid';
 
-import { currencyFormatter, numberFormatter } from '../utils/gridFormatters';
-import { dateStringComparator } from '../utils/gridComparators';
+import { currencyFormatter, numberFormatter } from '@/utils/gridFormatters';
+import { dateStringComparator } from '@/utils/gridComparators';
+
+import StatusLabel from '@/components/labels/StatusLabel';
+import EquipmentLabel from '@/components/labels/EquipmentLabel';
+import EquipmentFilter from '@/components/filters/EquipmentFilter';
+import StatusFilter from '@/components/filters/StatusFilter';
 
 import TableGrid from './TableGrid';
-import StatusFilter from './StatusFilter';
-import StatusLabel from './StatusLabel';
-import EquipmentFilter from './EquipmentFilter';
-import EquipmentLabel from './EquipmentLabel';
 
 interface LoadsTableProps {
   loads: Load[];

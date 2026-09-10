@@ -1,5 +1,5 @@
 import type { ColDef, GridApi } from 'ag-grid-community';
-import type { FilterModel } from '../types/Filter';
+import type { FilterModel } from '@/types/Filter';
 
 import { useMemo, useState, useRef } from 'react';
 import Box from '@mui/material/Box';
@@ -9,12 +9,12 @@ import {
   AllCommunityModule,
 } from 'ag-grid-community';
 
-import getFilterAnnouncement from '../utils/getFilterAnnouncement';
-import getTableDataStatus from '../utils/getTableDataStatus';
+import getFilterAnnouncement from '@/utils/getFilterAnnouncement';
+import getTableDataStatus from '@/utils/getTableDataStatus';
 
-import useGridTheme from '../hooks/useGridTheme';
-import useAnnouncement from '../hooks/useAnnouncement';
-import AriaAnnouncement from '../components/AriaAnnouncement';
+import useGridTheme from '@/hooks/useGridTheme';
+import useAnnouncement from '@/hooks/useAnnouncement';
+import AriaAnnouncement from '@/components/app/AriaAnnouncement';
 
 // enable AG Grid's search and filter features
 ModuleRegistry.registerModules([AllCommunityModule]);

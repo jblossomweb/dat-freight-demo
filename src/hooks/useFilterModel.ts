@@ -1,5 +1,5 @@
 import type { GridApi } from 'ag-grid-community';
-import type { FilterModel } from '../types/Filter';
+import type { FilterModel } from '@/types/Filter';
 
 import { useRef, useState } from 'react';
 

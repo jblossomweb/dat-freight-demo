@@ -1,5 +1,5 @@
 import type React from 'react';
-import type { EquipmentType } from '../types/Load';
+import type { EquipmentType } from '@/types/Load';
 
 import AirportShuttleIcon from '@mui/icons-material/AirportShuttle';
 import FireTruckIcon from '@mui/icons-material/FireTruck';

@@ -10,7 +10,7 @@ import '@fontsource/archivo/600.css';
 import '@fontsource/public-sans/700.css';
 
 import { accessibleTheme } from '../src/theme';
-import DarkModeToggle from '../src/components/DarkModeToggle';
+import DarkModeToggle from '../src/components/app/DarkModeToggle';
 
 const preview: Preview = {
   decorators: [

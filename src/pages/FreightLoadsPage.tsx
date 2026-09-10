@@ -1,16 +1,15 @@
-import type { Load } from '../types/Load';
+import type { Load } from '@/types/Load';
 
 import { useState } from 'react';
 
 import Box from '@mui/material/Box';
 
-import SearchInput from '../components/SearchInput';
-import FilterPills from '../components/FilterPills';
-import LoadsTable from '../components/LoadsTable';
+import loadsData from '@/data/mockLoads.json';
+import useFilterModel from '@/hooks/useFilterModel';
 
-import useFilterModel from '../hooks/useFilterModel';
-
-import loadsData from '../data/mockLoads.json';
+import SearchInput from '@/components/inputs/SearchInput';
+import FilterPills from '@/components/filters/FilterPills';
+import LoadsTable from '@/components/tables/LoadsTable';
 
 function FreightLoadsPage() {
   const loads = (loadsData as { loads: Load[] }).loads;

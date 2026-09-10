@@ -1,4 +1,4 @@
-import type { FilterModel } from '../types/Filter';
+import type { FilterModel } from '@/types/Filter';
 
 import getFilterLabel from './getFilterLabel';
 import getTableDataStatus from './getTableDataStatus';

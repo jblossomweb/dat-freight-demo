@@ -5,7 +5,7 @@ import type {
   FilterValue,
   CombinedFilterValue,
   SetFilterValue,
-} from '../types/Filter';
+} from '@/types/Filter';
 
 const operatorLabels: Record<FilterOperator, string> = {
   blank: 'is blank',

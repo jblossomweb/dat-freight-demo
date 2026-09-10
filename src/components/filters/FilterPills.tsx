@@ -1,11 +1,11 @@
 import type React from 'react';
-import type { FilterModel } from '../types/Filter';
+import type { FilterModel } from '@/types/Filter';
 
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import CloseIcon from '@mui/icons-material/Close';
 
-import getFilterLabel from '../utils/getFilterLabel';
+import getFilterLabel from '@/utils/getFilterLabel';
 
 interface FilterPillsProps {
   filters: FilterModel;

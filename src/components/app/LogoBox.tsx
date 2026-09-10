@@ -1,7 +1,7 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 
-import logo from '../assets/dat-tm-logo.svg';
+import logo from '@/assets/dat-tm-logo.svg';
 
 interface LogoBoxProps {
   width?: number;

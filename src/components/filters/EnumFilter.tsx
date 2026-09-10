@@ -1,13 +1,12 @@
 import type { CustomFilterProps } from 'ag-grid-react';
-import type React from 'react';
-import type { EnumFilterModel } from '../types/Filter';
-import type { StringKey } from '../types/StringKey';
+import type { EnumFilterModel } from '@/types/Filter';
+import type { StringKey } from '@/types/StringKey';
 
 import { useState } from 'react';
 
 import Box from '@mui/material/Box';
 
-import useEnumFilter from '../hooks/useEnumFilter';
+import useEnumFilter from '@/hooks/useEnumFilter';
 
 import IsIsNotSelect from './IsIsNotSelect';
 import FilterValueSelect from './FilterValueSelect';
