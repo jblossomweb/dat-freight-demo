@@ -7,13 +7,13 @@ import {
 } from 'ag-grid-community';
 
 const useGridTheme = () => {
-  const { mode } = useColorScheme();
+  const { mode, systemMode } = useColorScheme();
 
   const gridTheme = useMemo(
-    () => mode === 'dark'
+    () => (mode === 'dark' || (mode === 'system' && systemMode === 'dark'))
       ? themeQuartz.withPart(colorSchemeDark)
       : themeQuartz,
-    [mode],
+    [mode, systemMode],
   );
 
   return gridTheme;

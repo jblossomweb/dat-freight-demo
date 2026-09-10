@@ -7,13 +7,13 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 
 const DarkModeToggle: React.FC = () => {
-  const { mode, setMode } = useColorScheme();
+  const { mode, systemMode, setMode } = useColorScheme();
 
   if (!mode) {
     return <Box sx={{ width: 64, height: 34 }} />;
   }
 
-  const isDarkMode = mode === 'dark';
+  const isDarkMode = mode === 'dark' || (mode === 'system' && systemMode === 'dark');
 
   return (
     <ButtonBase

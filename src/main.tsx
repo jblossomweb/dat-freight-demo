@@ -29,7 +29,7 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
-      <ThemeProvider theme={accessibleTheme}>
+      <ThemeProvider theme={accessibleTheme} defaultMode="system">
         <CssBaseline />
         <RouterProvider router={router} />
       </ThemeProvider>

@@ -7,6 +7,7 @@ import reactDom from 'eslint-plugin-react-dom';
 import tseslint from 'typescript-eslint';
 import stylistic from '@stylistic/eslint-plugin';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
+import storybook from 'eslint-plugin-storybook';
 import { defineConfig, globalIgnores } from 'eslint/config';
 
 const jsRules = {
@@ -82,7 +83,11 @@ export default defineConfig([
     languageOptions: {
       globals: globals.browser,
       parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        project: [
+          './tsconfig.node.json',
+          './tsconfig.app.json',
+          './tsconfig.storybook.json',
+        ],
         tsconfigRootDir: import.meta.dirname,
       },
     },
@@ -91,5 +96,14 @@ export default defineConfig([
       ...tsRules,
       ...reactRules,
     },
+  },
+  {
+    files: [
+      '.storybook/**/*.{js,ts,tsx}',
+      '**/*.stories.{js,jsx,ts,tsx}',
+    ],
+    extends: [
+      ...storybook.configs['flat/recommended'],
+    ],
   },
 ]);
