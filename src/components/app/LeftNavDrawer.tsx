@@ -7,7 +7,6 @@ import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 
 import PeopleIcon from '@mui/icons-material/People';
-import SettingsIcon from '@mui/icons-material/Settings';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
@@ -69,6 +68,7 @@ const LeftNavDrawer: React.FC<LeftNavDrawerProps> = ({
         sx={(theme) => ({
           minWidth: 0,
           overflow: 'hidden',
+          color: 'common.white',
           opacity: open ? 1 : 0,
           visibility: open ? 'visible' : 'hidden',
           transition: 'opacity 150ms ease, visibility 0s linear',
@@ -96,13 +96,6 @@ const LeftNavDrawer: React.FC<LeftNavDrawerProps> = ({
           active={currentPath === '/freight-loads'}
           collapsed={!open}
           icon={<LocalShippingIcon />}
-        />
-        <NavItem
-          title="Style Guide"
-          link="/style-guide"
-          active={currentPath === '/style-guide'}
-          collapsed={!open}
-          icon={<SettingsIcon />}
         />
       </List>
     </Box>

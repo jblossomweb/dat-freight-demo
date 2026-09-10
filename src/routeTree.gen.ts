@@ -11,7 +11,6 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as FreightLoadsRouteImport } from './routes/freight-loads'
-import { Route as StyleGuideRouteImport } from './routes/style-guide'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -23,40 +22,31 @@ const FreightLoadsRoute = FreightLoadsRouteImport.update({
   path: '/freight-loads',
   getParentRoute: () => rootRouteImport,
 } as any)
-const StyleGuideRoute = StyleGuideRouteImport.update({
-  id: '/style-guide',
-  path: '/style-guide',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/freight-loads': typeof FreightLoadsRoute
-  '/style-guide': typeof StyleGuideRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/freight-loads': typeof FreightLoadsRoute
-  '/style-guide': typeof StyleGuideRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/freight-loads': typeof FreightLoadsRoute
-  '/style-guide': typeof StyleGuideRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/freight-loads' | '/style-guide'
+  fullPaths: '/' | '/freight-loads'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/freight-loads' | '/style-guide'
-  id: '__root__' | '/' | '/freight-loads' | '/style-guide'
+  to: '/' | '/freight-loads'
+  id: '__root__' | '/' | '/freight-loads'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FreightLoadsRoute: typeof FreightLoadsRoute
-  StyleGuideRoute: typeof StyleGuideRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -75,20 +65,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FreightLoadsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/style-guide': {
-      id: '/style-guide'
-      path: '/style-guide'
-      fullPath: '/style-guide'
-      preLoaderRoute: typeof StyleGuideRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FreightLoadsRoute: FreightLoadsRoute,
-  StyleGuideRoute: StyleGuideRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

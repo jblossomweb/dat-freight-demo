@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/tanstack-react';
 
+import { createElement } from 'react';
+import StyleGuidePage from '@/pages/StyleGuidePage';
+
 import AppLayout from './AppLayout';
 
 const meta = {
   title: 'layout/AppLayout',
   component: AppLayout,
-  parameters: {
-    // layout: 'centered',
-  },
   tags: ['autodocs'],
   argTypes: {
     pageTitle: { control: 'text' },
@@ -37,5 +37,13 @@ export const CurrentPath: Story = {
     pageTitle: 'Home Page',
     currentPath: '/',
     children: 'Page Content...',
+  },
+};
+
+export const StyleGuide: Story = {
+  args: {
+    pageTitle: 'Style Guide',
+    currentPath: '/',
+    children: createElement(StyleGuidePage),
   },
 };
