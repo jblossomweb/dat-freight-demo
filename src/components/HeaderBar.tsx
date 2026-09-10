@@ -18,14 +18,18 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
   <AppBar
     position="fixed"
     elevation={0}
-    sx={{
+    sx={(theme) => ({
       width: `calc(100% - ${String(drawerWidth)}px)`,
       ml: `${String(drawerWidth)}px`,
+      transition: theme.transitions.create(['width', 'margin-left'], {
+        duration: theme.transitions.duration.standard,
+        easing: theme.transitions.easing.easeInOut,
+      }),
       borderBottom: 1,
       borderColor: 'divider',
       bgcolor: 'background.paper',
       color: 'text.primary',
-    }}
+    })}
   >
     {/* component="header" provides semantic HTML5 validation mapping */}
     <Toolbar
