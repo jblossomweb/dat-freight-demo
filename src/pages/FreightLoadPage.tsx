@@ -20,7 +20,7 @@ function FreightLoadPage() {
 
   if (!load) {
     return (
-      <Box sx={{ width: '100%', maxWidth: 500 }}>
+      <Box sx={{ width: '100%' }}>
         <Typography variant="h2" gutterBottom>
           Load {id} not found
         </Typography>

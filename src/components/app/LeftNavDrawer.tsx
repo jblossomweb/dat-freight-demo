@@ -10,6 +10,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
+import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 
 import NavItem from './NavItem';
 
@@ -99,6 +100,13 @@ const LeftNavDrawer: React.FC<LeftNavDrawerProps> = ({
           }
           collapsed={!open}
           icon={<LocalShippingIcon />}
+        />
+        <NavItem
+          title="Statistics"
+          link="/stats"
+          active={currentPath === '/stats'}
+          collapsed={!open}
+          icon={<LeaderboardIcon />}
         />
       </List>
     </Box>

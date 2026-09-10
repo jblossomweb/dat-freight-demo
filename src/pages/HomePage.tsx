@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 
 function HomePage() {
   return (
-    <Box sx={{ width: '100%', maxWidth: 500 }}>
+    <Box sx={{ width: '100%' }}>
       <Typography variant="body1" gutterBottom>
         Welcome to the Home Page!
       </Typography>

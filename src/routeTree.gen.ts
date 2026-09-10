@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as FreightLoadsRouteImport } from './routes/freight-loads'
+import { Route as StatsRouteImport } from './routes/stats'
 import { Route as FreightLoadIdRouteImport } from './routes/freight-load.$id'
 
 const IndexRoute = IndexRouteImport.update({
@@ -23,6 +24,11 @@ const FreightLoadsRoute = FreightLoadsRouteImport.update({
   path: '/freight-loads',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StatsRoute = StatsRouteImport.update({
+  id: '/stats',
+  path: '/stats',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FreightLoadIdRoute = FreightLoadIdRouteImport.update({
   id: '/freight-load/$id',
   path: '/freight-load/$id',
@@ -32,30 +38,34 @@ const FreightLoadIdRoute = FreightLoadIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/freight-loads': typeof FreightLoadsRoute
+  '/stats': typeof StatsRoute
   '/freight-load/$id': typeof FreightLoadIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/freight-loads': typeof FreightLoadsRoute
+  '/stats': typeof StatsRoute
   '/freight-load/$id': typeof FreightLoadIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/freight-loads': typeof FreightLoadsRoute
+  '/stats': typeof StatsRoute
   '/freight-load/$id': typeof FreightLoadIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/freight-loads' | '/freight-load/$id'
+  fullPaths: '/' | '/freight-loads' | '/stats' | '/freight-load/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/freight-loads' | '/freight-load/$id'
-  id: '__root__' | '/' | '/freight-loads' | '/freight-load/$id'
+  to: '/' | '/freight-loads' | '/stats' | '/freight-load/$id'
+  id: '__root__' | '/' | '/freight-loads' | '/stats' | '/freight-load/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FreightLoadsRoute: typeof FreightLoadsRoute
+  StatsRoute: typeof StatsRoute
   FreightLoadIdRoute: typeof FreightLoadIdRoute
 }
 
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FreightLoadsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/stats': {
+      id: '/stats'
+      path: '/stats'
+      fullPath: '/stats'
+      preLoaderRoute: typeof StatsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/freight-load/$id': {
       id: '/freight-load/$id'
       path: '/freight-load/$id'
@@ -88,6 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FreightLoadsRoute: FreightLoadsRoute,
+  StatsRoute: StatsRoute,
   FreightLoadIdRoute: FreightLoadIdRoute,
 }
 export const routeTree = rootRouteImport
