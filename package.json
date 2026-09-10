@@ -10,6 +10,7 @@
     "lint-fix": "eslint . --fix",
     "test": "vitest",
     "test-run": "vitest run",
+    "test-related": "vitest related --run --passWithNoTests",
     "test-coverage": "vitest run --coverage",
     "preview": "vite preview",
     "prepare": "husky install",
@@ -17,7 +18,10 @@
     "build-storybook": "storybook build"
   },
   "lint-staged": {
-    "*.{js,mjs,cjs,ts,tsx}": "eslint --fix --no-warn-ignored"
+    "*.{js,mjs,cjs,ts,tsx}": [
+      "eslint --fix --no-warn-ignored",
+      "npm run test-related --"
+    ]
   },
   "overrides": {
     "eslint-plugin-jsx-a11y": {
