@@ -2,22 +2,69 @@ import type { Load } from '@/types/Load';
 
 import { useState } from 'react';
 
-import Box from '@mui/material/Box';
+import Skeleton from '@mui/material/Skeleton';
+import Alert from '@mui/material/Alert';
 
-import loadsData from '@/data/mockLoads.json';
 import useFilterModel from '@/hooks/useFilterModel';
+import useFetchLoads from '@/hooks/useFetchLoads';
 
+import FreightLoadsTemplate from '@/templates/FreightLoadsTemplate';
 import SearchInput from '@/components/inputs/SearchInput';
 import FilterPills from '@/components/filters/FilterPills';
 import LoadsTable from '@/components/tables/LoadsTable';
-
 function FreightLoadsPage() {
-  const loads = (loadsData as { loads: Load[] }).loads;
   const [search, setSearch] = useState('');
   const filterModel = useFilterModel<Load>();
 
+  const { loads, isLoading, error } = useFetchLoads();
+
+  if (isLoading) {
+    return (
+      <FreightLoadsTemplate>
+        <SearchInput
+          isLoading={isLoading}
+          placeholder="Search Loads..."
+          ariaLabel="Search Loads"
+          onSearchChange={() => {
+            // void
+          }}
+        />
+
+        <FilterPills
+          filters={{}}
+          onDeleteFilter={() => {
+            // void
+          }}
+        />
+
+        <Skeleton variant="rectangular" width="100%" height="100%" />
+      </FreightLoadsTemplate>
+    );
+  }
+
+  if (error) {
+    return (
+      <FreightLoadsTemplate>
+        <SearchInput
+          isLoading={isLoading}
+          placeholder="Search Loads..."
+          ariaLabel="Search Loads"
+          onSearchChange={setSearch}
+        />
+
+        <FilterPills
+          filters={{}}
+          onDeleteFilter={() => {
+            // void
+          }}
+        />
+        <Alert severity="error">Error: {error.message || 'Unknown error'}</Alert>
+      </FreightLoadsTemplate>
+    );
+  }
+
   return (
-    <Box sx={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', flexGrow: 1, gap: 1 }}>
+    <FreightLoadsTemplate>
       <SearchInput
         placeholder="Search Loads..."
         ariaLabel="Search Loads"
@@ -35,7 +82,7 @@ function FreightLoadsPage() {
         onReady={filterModel.onReady}
         onFilterChange={filterModel.onFilterChange}
       />
-    </Box>
+    </FreightLoadsTemplate>
   );
 }
 

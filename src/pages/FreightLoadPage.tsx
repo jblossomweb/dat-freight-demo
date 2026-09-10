@@ -1,13 +1,12 @@
-import type { Load } from '@/types/Load';
-
 import { useParams } from '@tanstack/react-router';
 
+import Alert from '@mui/material/Alert';
+import Skeleton from '@mui/material/Skeleton';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import CircularProgress from '@mui/material/CircularProgress';
 
-import loadsData from '@/data/mockLoads.json';
-import Link from '@/components/app/Link';
+import useFetchLoad from '@/hooks/useFetchLoad';
+import FreightLoadTemplate from '@/templates/FreightLoadTemplate';
 import LoadRouteMap from '@/components/maps/LoadRouteMap';
 
 function FreightLoadPage() {
@@ -15,43 +14,44 @@ function FreightLoadPage() {
     from: '/freight-load/$id',
   });
 
-  const loads = (loadsData as { loads: Load[] }).loads;
-  const load = loads.find(load => load.id === id);
+  const { data: load, isLoading, error } = useFetchLoad(id);
 
-  if (!load) {
+  if (isLoading) {
     return (
-      <Box sx={{ width: '100%' }}>
-        <Typography variant="h2" gutterBottom>
-          Load {id} not found
-        </Typography>
-      </Box>
+      <FreightLoadTemplate
+        header={(
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            {id}
+            <CircularProgress
+              color="primary"
+              size={18}
+              enableTrackSlot
+              aria-label="Loading…"
+            />
+          </Box>
+        )}
+      >
+        <Skeleton variant="rectangular" width="100%" height="100%" />
+      </FreightLoadTemplate>
+    );
+  }
+
+  if (error || !load) {
+    return (
+      <FreightLoadTemplate header={id}>
+        <Alert severity="error">Error: {error?.message ?? 'Unknown error'}</Alert>
+      </FreightLoadTemplate>
     );
   }
 
   return (
-    <Box
-      sx={{
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-    >
-      <Link to="/freight-loads">
-        <Box sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5 }}>
-          <ArrowBackIcon sx={{ fontSize: 18 }} aria-hidden="true" />
-          Back to freight loads
-        </Box>
-      </Link>
-      <Typography variant="h2" gutterBottom>
-        {`${load.id} for ${load.companyName}`}
-      </Typography>
+    <FreightLoadTemplate header={`${load.id} for ${load.companyName}`}>
       <LoadRouteMap
         origin={load.origin}
         destination={load.destination}
         height="100%"
       />
-    </Box>
+    </FreightLoadTemplate>
   );
 }
 

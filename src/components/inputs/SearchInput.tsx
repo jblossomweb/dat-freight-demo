@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import TextField from '@mui/material/TextField';
+import CircularProgress from '@mui/material/CircularProgress';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 
@@ -13,6 +14,7 @@ interface SearchInputProps {
   ariaLabel?: string;
   debounceMs?: number;
   width?: number | string;
+  isLoading?: boolean;
 }
 
 const SearchInput: React.FC<SearchInputProps> = ({
@@ -21,6 +23,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
   ariaLabel = 'Search',
   debounceMs = 500,
   width = '100%',
+  isLoading = false,
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [hidePlaceholder, setHidePlaceholder] = useState(false);
@@ -42,8 +45,9 @@ const SearchInput: React.FC<SearchInputProps> = ({
 
   return (
     <TextField
+      disabled={isLoading}
       size="small"
-      placeholder={hidePlaceholder ? '' : placeholder}
+      placeholder={hidePlaceholder ? '' : isLoading ? 'Loading...' : placeholder}
       value={searchTerm}
       onFocus={() => {
         setHidePlaceholder(true);
@@ -63,7 +67,11 @@ const SearchInput: React.FC<SearchInputProps> = ({
         input: {
           startAdornment: (
             <InputAdornment position="start">
-              <SearchIcon sx={{ fontSize: 20 }} />
+              {isLoading ? (
+                <CircularProgress color="inherit" size={20} />
+              ) : (
+                <SearchIcon sx={{ fontSize: 20 }} />
+              )}
             </InputAdornment>
           ),
           endAdornment: searchTerm !== '' ? (

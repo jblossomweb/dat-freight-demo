@@ -59,3 +59,12 @@ export const CustomLabels: Story = {
     renderLabel: label => label,
   },
 };
+
+export const Loading: Story = {
+  args: {
+    title: 'Loading...',
+    isLoading: true,
+    data: [],
+    renderLabel: label => createElement(StatusLabel, { status: label as 'Available' | 'In Transit' | 'Delivered' }),
+  },
+};

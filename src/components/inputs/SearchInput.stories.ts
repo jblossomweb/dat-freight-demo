@@ -31,3 +31,13 @@ export const Sample: Story = {
     width: 400,
   },
 };
+
+export const Loading: Story = {
+  args: {
+    onSearchChange: fn(),
+    placeholder: 'Search...',
+    ariaLabel: 'Search input',
+    width: 400,
+    isLoading: true,
+  },
+};

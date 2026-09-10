@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider, createRouter } from '@tanstack/react-router';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { routeTree } from './routeTree.gen';
 
 import '@fontsource/archivo/400.css'; // Regular data/body lines
@@ -14,6 +15,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { accessibleTheme } from './theme';
 
 const router = createRouter({ routeTree });
+const queryClient = new QueryClient();
 
 declare module '@tanstack/react-router' {
   interface Register {
@@ -32,7 +34,9 @@ if (!rootElement.innerHTML) {
     <StrictMode>
       <ThemeProvider theme={accessibleTheme} defaultMode="system">
         <CssBaseline />
-        <RouterProvider router={router} />
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+        </QueryClientProvider>
       </ThemeProvider>
     </StrictMode>,
   );
