@@ -14,7 +14,7 @@
     "build-storybook": "storybook build"
   },
   "lint-staged": {
-    "*.{js,mjs,cjs,ts,tsx}": "eslint --fix"
+    "*.{js,mjs,cjs,ts,tsx}": "eslint --fix --no-warn-ignored"
   },
   "overrides": {
     "eslint-plugin-jsx-a11y": {

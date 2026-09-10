@@ -9,3 +9,8 @@ export interface EquipmentPalette {
   flatbed: string;
   reefer: string;
 }
+
+export interface LinkPalette {
+  main: string;
+  hover: string;
+}

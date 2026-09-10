@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as FreightLoadsRouteImport } from './routes/freight-loads'
+import { Route as FreightLoadIdRouteImport } from './routes/freight-load.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,31 +23,40 @@ const FreightLoadsRoute = FreightLoadsRouteImport.update({
   path: '/freight-loads',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FreightLoadIdRoute = FreightLoadIdRouteImport.update({
+  id: '/freight-load/$id',
+  path: '/freight-load/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/freight-loads': typeof FreightLoadsRoute
+  '/freight-load/$id': typeof FreightLoadIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/freight-loads': typeof FreightLoadsRoute
+  '/freight-load/$id': typeof FreightLoadIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/freight-loads': typeof FreightLoadsRoute
+  '/freight-load/$id': typeof FreightLoadIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/freight-loads'
+  fullPaths: '/' | '/freight-loads' | '/freight-load/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/freight-loads'
-  id: '__root__' | '/' | '/freight-loads'
+  to: '/' | '/freight-loads' | '/freight-load/$id'
+  id: '__root__' | '/' | '/freight-loads' | '/freight-load/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FreightLoadsRoute: typeof FreightLoadsRoute
+  FreightLoadIdRoute: typeof FreightLoadIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +75,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FreightLoadsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/freight-load/$id': {
+      id: '/freight-load/$id'
+      path: '/freight-load/$id'
+      fullPath: '/freight-load/$id'
+      preLoaderRoute: typeof FreightLoadIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FreightLoadsRoute: FreightLoadsRoute,
+  FreightLoadIdRoute: FreightLoadIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

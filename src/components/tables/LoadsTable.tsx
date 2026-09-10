@@ -3,9 +3,12 @@ import type { Load, LoadStatus, EquipmentType } from '@/types/Load';
 import type { FilterModel } from '@/types/Filter';
 import type { GridSortRule } from './TableGrid';
 
+// import { Link as RouterLink } from '@tanstack/react-router';
+
 import { currencyFormatter, numberFormatter } from '@/utils/gridFormatters';
 import { dateStringComparator } from '@/utils/gridComparators';
 
+import Link from '@/components/app/Link';
 import StatusLabel from '@/components/labels/StatusLabel';
 import EquipmentLabel from '@/components/labels/EquipmentLabel';
 import EquipmentFilter from '@/components/filters/EquipmentFilter';
@@ -19,6 +22,14 @@ interface LoadsTableProps {
   onReady: (api: GridApi<Load>) => void;
   onFilterChange: (filterModel: FilterModel) => void;
 }
+
+const IdCellRenderer = (
+  params: { value?: string },
+) => (
+  <Link to={'/freight-load/$id'} params={{ id: params.value ?? '' }}>
+    {params.value}
+  </Link>
+);
 
 const EquipmentCellRenderer = (
   params: { value?: EquipmentType },
@@ -38,7 +49,11 @@ const initialSort: GridSortRule[] = [
 
 const allColumns: ColDef<Load>[] = [
   {
-    field: 'id', headerName: 'ID', width: 120 },
+    field: 'id',
+    headerName: 'ID',
+    width: 120,
+    cellRenderer: IdCellRenderer,
+  },
   { field: 'companyName', headerName: 'Company', width: 200 },
   { field: 'origin', headerName: 'Origin', width: 160 },
   { field: 'destination', headerName: 'Destination', width: 160 },

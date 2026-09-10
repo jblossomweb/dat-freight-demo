@@ -2,6 +2,8 @@
   "extends": "./tsconfig.app.json",
   "include": [
     ".storybook/**/*.ts",
-    ".storybook/**/*.tsx"
+    ".storybook/**/*.tsx",
+    "src/**/*.ts",
+    "src/**/*.tsx"
   ]
 }

@@ -93,7 +93,10 @@ const LeftNavDrawer: React.FC<LeftNavDrawerProps> = ({
         <NavItem
           title="Freight Loads"
           link="/freight-loads"
-          active={currentPath === '/freight-loads'}
+          active={
+            currentPath === '/freight-loads' ||
+            currentPath?.startsWith('/freight-load/')
+          }
           collapsed={!open}
           icon={<LocalShippingIcon />}
         />

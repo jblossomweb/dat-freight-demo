@@ -1,4 +1,4 @@
-import type { StatusPalette, EquipmentPalette } from './types/Theme';
+import type { StatusPalette, EquipmentPalette, LinkPalette } from './types/Theme';
 
 import { createTheme } from '@mui/material/styles';
 
@@ -6,11 +6,13 @@ declare module '@mui/material/styles' {
   interface Palette {
     equipment: EquipmentPalette;
     status: StatusPalette;
+    link: LinkPalette;
   }
 
   interface PaletteOptions {
     equipment: EquipmentPalette;
     status: StatusPalette;
+    link: LinkPalette;
   }
 }
 
@@ -39,13 +41,17 @@ export const accessibleTheme = createTheme({
           inTransit: 'var(--mui-palette-warning-dark)',
           delivered: 'var(--mui-palette-success-dark)',
         },
+        link: {
+          main: 'var(--mui-palette-primary-main)',
+          hover: 'var(--mui-palette-primary-dark)',
+        },
       },
     },
 
     // 🌙 Dark Mode
     dark: {
       palette: {
-        primary: { main: '#0053ec', dark: '#003cb3', contrastText: '#ffffff' },
+        primary: { main: '#0053ec', dark: '#003cb3', light: '#a2c2fd', contrastText: '#ffffff' },
         secondary: { main: '#293851', dark: '#1e293b', contrastText: '#ffffff' },
         background: { default: '#070d14', paper: '#0e1722' },
         text: { primary: '#f9fafb', secondary: '#9ca3af' },
@@ -58,6 +64,10 @@ export const accessibleTheme = createTheme({
           available: 'var(--mui-palette-info-light)',
           inTransit: 'var(--mui-palette-warning-light)',
           delivered: 'var(--mui-palette-success-light)',
+        },
+        link: {
+          main: 'var(--mui-palette-info-light)',
+          hover: 'var(--mui-palette-info-main)',
         },
       },
     },

@@ -27,6 +27,8 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle, currentPath 
 
   const drawerWidth = drawerOpen ? DRAWER_WIDTH : DRAWER_WIDTH_COLLAPSED;
 
+  console.log({ currentPath });
+
   return (
     <Box sx={{
       display: 'flex',
