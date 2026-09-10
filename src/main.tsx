@@ -7,6 +7,7 @@ import '@fontsource/archivo/400.css'; // Regular data/body lines
 import '@fontsource/archivo/500.css'; // Medium descriptors
 import '@fontsource/archivo/600.css'; // Semi-bold interactive text layers
 import '@fontsource/public-sans/700.css'; // Sharp geometric headings
+import 'maplibre-gl/dist/maplibre-gl.css'; // map styles for MapLibre GL
 
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';

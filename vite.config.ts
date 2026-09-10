@@ -9,6 +9,9 @@ export default defineConfig({
     tanstackRouter(),
     react(),
   ],
+  optimizeDeps: {
+    exclude: ['maplibre-gl'],
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
