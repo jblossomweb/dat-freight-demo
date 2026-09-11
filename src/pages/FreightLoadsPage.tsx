@@ -1,6 +1,6 @@
 import type { Load } from '@/types/Load';
 
-import { useState } from 'react';
+import { lazy, Suspense, useState } from 'react';
 
 import Skeleton from '@mui/material/Skeleton';
 import Alert from '@mui/material/Alert';
@@ -11,7 +11,9 @@ import useFetchLoads from '@/hooks/useFetchLoads';
 import FreightLoadsTemplate from '@/templates/FreightLoadsTemplate';
 import SearchInput from '@/components/inputs/SearchInput';
 import FilterPills from '@/components/filters/FilterPills';
-import LoadsTable from '@/components/tables/LoadsTable';
+
+const LoadsTable = lazy(() => import('@/components/tables/LoadsTable'));
+
 function FreightLoadsPage() {
   const [search, setSearch] = useState('');
   const filterModel = useFilterModel<Load>();
@@ -76,12 +78,14 @@ function FreightLoadsPage() {
         onDeleteFilter={filterModel.onDeleteFilter}
       />
 
-      <LoadsTable
-        loads={loads}
-        search={search}
-        onReady={filterModel.onReady}
-        onFilterChange={filterModel.onFilterChange}
-      />
+      <Suspense fallback={<Skeleton variant="rectangular" width="100%" height="100%" />}>
+        <LoadsTable
+          loads={loads}
+          search={search}
+          onReady={filterModel.onReady}
+          onFilterChange={filterModel.onFilterChange}
+        />
+      </Suspense>
     </FreightLoadsTemplate>
   );
 }

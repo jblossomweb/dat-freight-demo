@@ -5,8 +5,16 @@ import { useMemo, useState, useRef } from 'react';
 import Box from '@mui/material/Box';
 import { AgGridReact } from 'ag-grid-react';
 import {
+  ClientSideRowModelModule,
+  ColumnApiModule,
+  DateFilterModule,
+  NumberFilterModule,
   ModuleRegistry,
-  AllCommunityModule,
+  PaginationModule,
+  PaginationPageNumbersModule,
+  QuickFilterModule,
+  RowApiModule,
+  TextFilterModule,
 } from 'ag-grid-community';
 
 import getFilterAnnouncement from '@/utils/getFilterAnnouncement';
@@ -16,8 +24,18 @@ import useGridTheme from '@/hooks/useGridTheme';
 import useAnnouncement from '@/hooks/useAnnouncement';
 import AriaAnnouncement from '@/components/app/AriaAnnouncement';
 
-// enable AG Grid's search and filter features
-ModuleRegistry.registerModules([AllCommunityModule]);
+// enable only AG Grid modules that are being used
+ModuleRegistry.registerModules([
+  ClientSideRowModelModule,
+  ColumnApiModule,
+  DateFilterModule,
+  NumberFilterModule,
+  PaginationModule,
+  PaginationPageNumbersModule,
+  QuickFilterModule,
+  RowApiModule,
+  TextFilterModule,
+]);
 
 export interface GridSortRule {
   colId: string;
