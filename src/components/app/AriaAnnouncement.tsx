@@ -18,13 +18,16 @@ const AriaAnnouncement: React.FC<AriaAnnouncementProps> = ({
     aria-live={alert ? undefined : assertive ? 'assertive' : 'polite'}
     aria-atomic={atomic}
     sx={{
-      position: 'absolute',
-      width: 1,
-      height: 1,
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '1px',
+      height: '1px',
       p: 0,
-      m: -1,
+      m: '-1px',
       overflow: 'hidden',
       clip: 'rect(0 0 0 0)',
+      clipPath: 'inset(50%)',
       whiteSpace: 'nowrap',
       border: 0,
     }}
