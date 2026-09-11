@@ -1,27 +1,53 @@
-name: Validate
+name: Validate Code
 
 on:
   workflow_call:
 
 jobs:
-  checks:
+  typecheck:
+    name: Run Type Checks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - name: Checkout Repository
+        uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 24
-          cache: npm
+      - name: Setup Node.js Ecosystem
+        uses: ./.github/actions/setup-node
 
       - name: Install Dependencies
         run: npm ci
 
-      - name: Typecheck
+      - name: Run Type Checks
         run: npm run typecheck
 
-      - name: Lint
+  lint:
+    name: Run Linter
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js Ecosystem
+        uses: ./.github/actions/setup-node
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Linter
         run: npm run lint
 
-      - name: Tests
+  tests:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js Ecosystem
+        uses: ./.github/actions/setup-node
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Tests
         run: npm run test-run

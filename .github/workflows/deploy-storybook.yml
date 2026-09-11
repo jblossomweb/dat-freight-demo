@@ -7,22 +7,27 @@ on:
       - '.storybook/**'
       - '.github/workflows/deploy-storybook.yml'
       - '.github/workflows/validate.yml'
+      - '.github/actions/setup/action.yml'
 
 jobs:
   validate:
     uses: ./.github/workflows/validate.yml
+
   deploy:
     needs: validate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 24
-          cache: 'npm'
-          
-      - run: npm ci
-      - run: npm run build-storybook
+      - name: Checkout Repository
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js Ecosystem
+        uses: ./.github/actions/setup-node
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Storybook
+        run: npm run build-storybook
       
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v6
