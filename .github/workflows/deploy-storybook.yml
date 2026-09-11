@@ -5,6 +5,8 @@ on:
     paths:
       - 'src/**'
       - '.storybook/**'
+      - '.github/workflows/deploy-storybook.yml'
+      - '.github/workflows/validate.yml'
 
 jobs:
   validate:
