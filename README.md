@@ -1,5 +1,32 @@
 # Freight Load Board Application
 
+This is a demo app as part of my application to a Senior Frontend Software Engineer role at DAT Freight & Analytics.
+
+### Key Functionality:
+
+1. **View all available freight loads**
+
+2. **Search across loads**
+
+3. **Sort the load list**
+
+4. **Filter loads**
+
+5. **Navigate through large datasets**
+
+6. **Use keyboard-only navigation**
+
+7. **Access all functionality with assistive technologies**
+
+### Extra Features:
+
+1. **Map source and destination** (without highway routing)
+2. **Some Pie Charts** with aggregate data.
+
+### Approach:
+
+My approach to this project is outlined [here](src/spec/TODO.md).
+
 ## Business Context
 
 Build a web application for logistics coordinators to manage freight shipments. Dispatchers need to quickly find and assign available loads to drivers throughout their day.
@@ -43,7 +70,9 @@ We're interested in seeing how you approach this problem and the technical decis
 
 ---
 
-# React + TypeScript + Vite
+# Tools used
+
+## React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 

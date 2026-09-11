@@ -1,5 +1,8 @@
+import type { ComponentProps, ReactNode } from 'react';
+
 import { createLink } from '@tanstack/react-router';
 import MuiLink from '@mui/material/Link';
+import type { LinkProps as MuiLinkProps } from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
 
 const ThemedMuiLink = styled(MuiLink)(({ theme }) => ({
@@ -19,6 +22,20 @@ const ThemedMuiLink = styled(MuiLink)(({ theme }) => ({
   },
 }));
 
-const Link = createLink(ThemedMuiLink);
+const RouterLink = createLink(ThemedMuiLink);
+
+type RouterLinkProps = ComponentProps<typeof RouterLink>;
+
+type LinkProps =
+  | (MuiLinkProps & { href: string; to?: never })
+  | (RouterLinkProps & { to: RouterLinkProps['to']; href?: never });
+
+const Link: React.FC<LinkProps & { children?: ReactNode }> = (props) => {
+  if ('href' in props) {
+    return <ThemedMuiLink {...props} />;
+  }
+
+  return <RouterLink {...props} />;
+};
 
 export default Link;
