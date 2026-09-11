@@ -6,12 +6,16 @@ import {
   type Marker as MarkerInstance,
 } from 'maplibre-gl';
 
+import mapLibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url';
+
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import { useColorScheme } from '@mui/material/styles';
 
 import locationCoordinatesData from '@/data/locationCoordinates.json';
 import stateCoordinatesData from '@/data/stateCoordinates.json';
+
+maplibregl.setWorkerUrl(mapLibreWorkerUrl);
 
 interface LoadRouteMapProps {
   origin: string;
@@ -51,22 +55,6 @@ const getRouteColor = () => getComputedStyle(document.documentElement)
   .getPropertyValue('--mui-palette-primary-main')
   .trim();
 
-const getRouteBearing = (
-  [originLongitude, originLatitude]: Coordinates,
-  [destinationLongitude, destinationLatitude]: Coordinates,
-) => {
-  const longitudeDelta = (destinationLongitude - originLongitude) * Math.PI / 180;
-  const originLatitudeRadians = originLatitude * Math.PI / 180;
-  const destinationLatitudeRadians = destinationLatitude * Math.PI / 180;
-  const y = Math.sin(longitudeDelta) * Math.cos(destinationLatitudeRadians);
-  const x = Math.cos(originLatitudeRadians) * Math.sin(destinationLatitudeRadians)
-    - Math.sin(originLatitudeRadians)
-    * Math.cos(destinationLatitudeRadians)
-    * Math.cos(longitudeDelta);
-
-  return (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
-};
-
 const createMarkerElement = (label: string) => {
   const element = document.createElement('div');
   const [heading, location] = label.split(': ');
@@ -92,6 +80,29 @@ const createMarkerElement = (label: string) => {
   locationElement.textContent = location;
 
   element.append(headingElement, document.createElement('br'), locationElement);
+
+  return element;
+};
+
+const createDirectionElement = (color: string, rotation: number) => {
+  const element = document.createElement('div');
+  const arrow = document.createElement('div');
+
+  element.setAttribute('aria-label', 'Route direction');
+  element.style.width = '14px';
+  element.style.height = '16px';
+
+  arrow.style.position = 'absolute';
+  arrow.style.top = '0';
+  arrow.style.left = '0';
+  arrow.style.width = '14px';
+  arrow.style.height = '16px';
+  arrow.style.backgroundColor = color;
+  arrow.style.clipPath = 'polygon(0 0, 100% 50%, 0 100%)';
+  arrow.style.filter = 'drop-shadow(0 0 1px #ffffff)';
+  arrow.style.transform = `rotate(${String(rotation)}deg)`;
+  arrow.style.transformOrigin = 'center';
+  element.append(arrow);
 
   return element;
 };
@@ -127,7 +138,6 @@ const LoadRouteMap: React.FC<LoadRouteMapProps> = ({
     mapRef.current = map;
     map.addControl(new maplibregl.NavigationControl(), 'top-right');
     const routeColor = getRouteColor();
-    const routeBearing = getRouteBearing(originCoordinates, destinationCoordinates);
 
     const route = {
       type: 'Feature' as const,
@@ -141,8 +151,9 @@ const LoadRouteMap: React.FC<LoadRouteMapProps> = ({
     const originMarker = new maplibregl.Marker({
       element: createMarkerElement(`Origin: ${origin}`),
     }).setLngLat(originCoordinates).addTo(map);
+    const destinationElement = createMarkerElement(`Destination: ${destination}`);
     const destinationMarker = new maplibregl.Marker({
-      element: createMarkerElement(`Destination: ${destination}`),
+      element: destinationElement,
     }).setLngLat(destinationCoordinates).addTo(map);
     markersRef.current = [originMarker, destinationMarker];
 
@@ -150,19 +161,6 @@ const LoadRouteMap: React.FC<LoadRouteMapProps> = ({
       map.addSource('load-route', {
         type: 'geojson',
         data: route,
-      });
-      map.addSource('load-route-arrow', {
-        type: 'geojson',
-        data: {
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: destinationCoordinates,
-          },
-          properties: {
-            rotation: routeBearing - 90,
-          },
-        },
       });
       map.addLayer({
         id: 'load-route-line',
@@ -174,29 +172,34 @@ const LoadRouteMap: React.FC<LoadRouteMapProps> = ({
           'line-opacity': 0.85,
         },
       });
-      map.addLayer({
-        id: 'load-route-direction-arrow',
-        type: 'symbol',
-        source: 'load-route-arrow',
-        layout: {
-          'text-field': '▶',
-          'text-size': 18,
-          'text-anchor': 'right',
-          'text-offset': [-2, 0],
-          'text-rotate': ['get', 'rotation'],
-          'text-allow-overlap': true,
-          'text-ignore-placement': true,
-          'text-rotation-alignment': 'map',
-        },
-        paint: {
-          'text-color': routeColor,
-          'text-halo-color': '#ffffff',
-          'text-halo-width': 1,
-        },
-      });
-
       const bounds = new LngLatBounds(originCoordinates, originCoordinates);
       bounds.extend(destinationCoordinates);
+      map.once('idle', () => {
+        const originPoint = map.project(originCoordinates);
+        const destinationPoint = map.project(destinationCoordinates);
+        const deltaX = destinationPoint.x - originPoint.x;
+        const deltaY = destinationPoint.y - originPoint.y;
+        const routeLength = Math.hypot(deltaX, deltaY);
+        const routeAngle = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
+        const directionX = deltaX / routeLength;
+        const directionY = deltaY / routeLength;
+        const destinationRadiusX = destinationElement.offsetWidth / 2;
+        const destinationRadiusY = destinationElement.offsetHeight / 2;
+        const destinationBoundary = 1 / Math.sqrt(
+          (directionX / destinationRadiusX) ** 2
+          + (directionY / destinationRadiusY) ** 2,
+        );
+        const arrowTipOffset = destinationBoundary - 2 + 7;
+        const arrowPoint = map.unproject([
+          destinationPoint.x - directionX * arrowTipOffset,
+          destinationPoint.y - directionY * arrowTipOffset,
+        ]);
+        const directionMarker = new maplibregl.Marker({
+          element: createDirectionElement(routeColor, routeAngle),
+          anchor: 'center',
+        }).setLngLat(arrowPoint).addTo(map);
+        markersRef.current.push(directionMarker);
+      });
       map.fitBounds(bounds, { padding: 64, maxZoom: 8 });
     });
 
@@ -210,7 +213,26 @@ const LoadRouteMap: React.FC<LoadRouteMapProps> = ({
       map.remove();
       mapRef.current = null;
     };
-  }, [destination, destinationCoordinates, mode, origin, originCoordinates, systemMode]);
+  }, [destination, destinationCoordinates, origin, originCoordinates]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    const routeColor = getRouteColor();
+
+    if (map?.isStyleLoaded() && map.getLayer('load-route-line')) {
+      map.setPaintProperty('load-route-line', 'line-color', routeColor);
+    }
+
+    markersRef.current.forEach((marker, index) => {
+      const element = marker.getElement();
+
+      if (index < 2) {
+        element.style.borderColor = routeColor;
+      } else if (element.firstElementChild instanceof HTMLElement) {
+        element.firstElementChild.style.backgroundColor = routeColor;
+      }
+    });
+  }, [mode, systemMode]);
 
   if (!originCoordinates || !destinationCoordinates) {
     return (
