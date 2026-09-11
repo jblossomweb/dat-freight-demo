@@ -1,10 +1,8 @@
-import { createFileRoute } from '@tanstack/react-router';
-
-import FreightLoadsPage from '@/pages/FreightLoadsPage';
+import { createFileRoute, lazyRouteComponent } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/freight-loads')({
   staticData: {
     title: 'Freight Loads',
   },
-  component: () => <FreightLoadsPage />,
+  component: lazyRouteComponent(() => import('@/pages/FreightLoadsPage')),
 });

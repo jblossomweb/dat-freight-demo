@@ -1,10 +1,8 @@
-import { createFileRoute } from '@tanstack/react-router';
-
-import StatsPage from '@/pages/StatsPage';
+import { createFileRoute, lazyRouteComponent } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/stats')({
   staticData: {
     title: 'Statistics',
   },
-  component: () => <StatsPage />,
+  component: lazyRouteComponent(() => import('@/pages/StatsPage')),
 });

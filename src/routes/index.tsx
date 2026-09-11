@@ -1,10 +1,8 @@
-import { createFileRoute } from '@tanstack/react-router';
-
-import HomePage from '@/pages/HomePage';
+import { createFileRoute, lazyRouteComponent } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/')({
   staticData: {
     title: 'Home',
   },
-  component: () => <HomePage />,
+  component: lazyRouteComponent(() => import('@/pages/HomePage')),
 });
