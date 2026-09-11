@@ -2,6 +2,15 @@
 
 This is a demo app as part of my application to a Senior Frontend Software Engineer role at DAT Freight & Analytics.
 
+## Sample Deployment
+
+I have set up pipelines to deploy this application and its component library to the following URLs:
+
+- Application: http://dat-freight-demo.s3-website-us-west-2.amazonaws.com/
+- Storybook: http://dat-freight-demo-storybook.s3-website-us-west-2.amazonaws.com/
+
+## Overview
+
 ### Key Functionality:
 
 1. **View all available freight loads**
