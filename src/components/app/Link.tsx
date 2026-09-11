@@ -1,4 +1,4 @@
-import type { ComponentProps, ReactNode } from 'react';
+import type { ComponentProps, ReactElement, ReactNode } from 'react';
 
 import { createLink } from '@tanstack/react-router';
 import MuiLink from '@mui/material/Link';
@@ -24,18 +24,20 @@ const ThemedMuiLink = styled(MuiLink)(({ theme }) => ({
 
 const RouterLink = createLink(ThemedMuiLink);
 
-type RouterLinkProps = ComponentProps<typeof RouterLink>;
+type LinkProps = MuiLinkProps & {
+  href?: string;
+  to?: string;
+  params?: Record<string, string>;
+};
 
-type LinkProps =
-  | (MuiLinkProps & { href: string; to?: never })
-  | (RouterLinkProps & { to: RouterLinkProps['to']; href?: never });
+type LinkComponent = (props: LinkProps & { children?: ReactNode }) => ReactElement;
 
-const Link: React.FC<LinkProps & { children?: ReactNode }> = (props) => {
-  if ('href' in props) {
+const Link = ((props: LinkProps & { children?: ReactNode }) => {
+  if (props.href !== undefined) {
     return <ThemedMuiLink {...props} />;
   }
 
-  return <RouterLink {...props} />;
-};
+  return <RouterLink {...(props as ComponentProps<typeof RouterLink>)} />;
+}) as LinkComponent;
 
 export default Link;
