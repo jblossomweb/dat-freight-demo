@@ -6,7 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 
-import PeopleIcon from '@mui/icons-material/People';
+import HomeFilledIcon from '@mui/icons-material/HomeFilled';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
@@ -89,7 +89,7 @@ const LeftNavDrawer: React.FC<LeftNavDrawerProps> = ({
           link="/"
           active={currentPath === '/'}
           collapsed={!open}
-          icon={<PeopleIcon />}
+          icon={<HomeFilledIcon />}
         />
         <NavItem
           title="Freight Loads"
