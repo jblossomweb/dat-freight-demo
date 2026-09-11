@@ -52,7 +52,7 @@ const reactRules = {
 };
 
 export default defineConfig([
-  globalIgnores(['dist', 'src/routeTree.gen.ts']),
+  globalIgnores(['dist', 'storybook-static', 'src/routeTree.gen.ts']),
   {
     files: ['**/*.{js,mjs,cjs}'],
     extends: [js.configs.recommended],
