@@ -95,7 +95,7 @@ function HomePage() {
               <em>Stats page</em> with some pie charts. (Access from main navigation menu)
             </ListItem>
             <ListItem sx={{ display: 'list-item' }}>
-              <em>Storybook implementation</em> with a style guide. (Link to build: coming soon!)
+              <em>Storybook implementation</em> with a style guide. (See link)
             </ListItem>
           </List>
         </Box>
