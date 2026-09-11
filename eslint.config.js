@@ -14,6 +14,7 @@ const jsRules = {
   'semi': ['error', 'always'],
   'quotes': ['error', 'single', { 'avoidEscape': true }],
   'comma-dangle': ['error', 'always-multiline'],
+  'no-console': ['error', { allow: ['warn', 'error'] }],
   'object-curly-spacing': ['error', 'always'],
   'no-multiple-empty-lines': ['error', { max: 1, maxEOF: 0 }],
   'max-len': [

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import * as maplibregl from 'maplibre-gl';
 import {
   LngLatBounds,
@@ -106,8 +106,11 @@ const LoadRouteMap: React.FC<LoadRouteMapProps> = ({
   const markersRef = useRef<MarkerInstance[]>([]);
   const [mapError, setMapError] = useState<string | null>(null);
   const { mode, systemMode } = useColorScheme();
-  const originCoordinates = resolveLocation(origin);
-  const destinationCoordinates = resolveLocation(destination);
+  const originCoordinates = useMemo(() => resolveLocation(origin), [origin]);
+  const destinationCoordinates = useMemo(
+    () => resolveLocation(destination),
+    [destination],
+  );
 
   useEffect(() => {
     if (!originCoordinates || !destinationCoordinates || !mapContainerRef.current) {
