@@ -30,8 +30,14 @@ function HomePage() {
         Use the left navigation menu to access different sections of the app.
         Feel free to click around and explore the various features:
       </Typography>
-      <Box sx={{ flexDirection: 'row', display: 'flex', gap: 4 }}>
-        <Box sx={{ width: '75%' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: { xs: 'column', lg: 'row' },
+          gap: 4,
+        }}
+      >
+        <Box sx={{ width: { xs: '100%', lg: '75%' } }}>
           <Typography variant="h5" gutterBottom>
             Main Features:
           </Typography>
@@ -93,7 +99,7 @@ function HomePage() {
             </ListItem>
           </List>
         </Box>
-        <Box sx={{ width: '25%' }}>
+        <Box sx={{ width: { xs: '100%', lg: '25%' } }}>
           <Typography variant="h5" gutterBottom>
             Links:
           </Typography>
