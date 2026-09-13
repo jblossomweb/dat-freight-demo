@@ -4,7 +4,7 @@ const LOADS_URL = new URL('../data/10000Loads.json', import.meta.url).href;
 const SIMULATED_DELAY = 400;
 
 // fake service to simulate fetching loads from an API
-const fetchLoads = async (): Promise<Load[]> => {
+const fetchJsonLoads = async (): Promise<Load[]> => {
   const response = await fetch(LOADS_URL);
 
   if (!response.ok) {
@@ -19,4 +19,4 @@ const fetchLoads = async (): Promise<Load[]> => {
   return payload.loads;
 };
 
-export default fetchLoads;
+export default fetchJsonLoads;

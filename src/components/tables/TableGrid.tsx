@@ -1,13 +1,16 @@
-import type { ColDef, GridApi } from 'ag-grid-community';
+import type { ColDef, GridApi, IDatasource } from 'ag-grid-community';
 import type { FilterModel } from '@/types/Filter';
 
 import { useMemo, useState, useRef } from 'react';
 import Box from '@mui/material/Box';
 import { AgGridReact } from 'ag-grid-react';
 import {
+  CellStyleModule,
   ClientSideRowModelModule,
+  CustomFilterModule,
   ColumnApiModule,
   DateFilterModule,
+  InfiniteRowModelModule,
   NumberFilterModule,
   ModuleRegistry,
   PaginationModule,
@@ -22,13 +25,17 @@ import getTableDataStatus from '@/utils/getTableDataStatus';
 
 import useGridTheme from '@/hooks/useGridTheme';
 import useAnnouncement from '@/hooks/useAnnouncement';
+import useAnimatedCount from '@/hooks/useAnimatedCount';
 import AriaAnnouncement from '@/components/app/AriaAnnouncement';
 
 // enable only AG Grid modules that are being used
 ModuleRegistry.registerModules([
+  CellStyleModule,
   ClientSideRowModelModule,
   ColumnApiModule,
   DateFilterModule,
+  InfiniteRowModelModule,
+  CustomFilterModule,
   NumberFilterModule,
   PaginationModule,
   PaginationPageNumbersModule,
@@ -52,6 +59,10 @@ interface TableGridProps<TData> {
   height?: number | string;
   pageSize?: number;
   pageSizes?: number[] | boolean;
+  rowModelType?: 'clientSide' | 'infinite';
+  loading?: boolean;
+  datasource?: IDatasource;
+  totalRowCount?: number;
   onGridReady?: (api: GridApi<TData>) => void;
   onFilterChange?: (filterModel: FilterModel) => void;
 }
@@ -65,12 +76,22 @@ function TableGrid<TData>({
   height = '100%',
   pageSize,
   pageSizes,
+  rowModelType = 'clientSide',
+  loading = false,
+  datasource,
+  totalRowCount: totalRowCountProp,
   onGridReady,
   onFilterChange,
 }: TableGridProps<TData>) {
   const gridTheme = useGridTheme();
-  const totalRowCount = rowData?.length ?? 0;
+  const totalRowCount = totalRowCountProp ?? (rowData?.length ?? 0);
   const [displayedRowCount, setDisplayedRowCount] = useState(totalRowCount);
+
+  const animatedDisplayedRowCount = useAnimatedCount(displayedRowCount, {
+    enabled: displayedRowCount !== totalRowCount,
+    debounceMs: 150,
+  });
+
   const announcement = useAnnouncement();
   const lastSearchRef = useRef(searchQuery);
 
@@ -143,11 +164,15 @@ function TableGrid<TData>({
       <AgGridReact<TData>
         // key forces fresh render when data array mounts
         key={rowData ? rowData.length : 0}
+        loading={loading}
         rowData={rowData}
         columnDefs={columnDefs}
         theme={gridTheme}
         defaultColDef={defaultColDef}
-        quickFilterText={searchQuery}
+        rowModelType={rowModelType}
+        datasource={datasource}
+        cacheBlockSize={rowModelType === 'infinite' ? pageSize : undefined}
+        quickFilterText={rowModelType === 'clientSide' ? searchQuery : undefined}
         onGridReady={(event) => {
           onGridReady?.(event.api);
         }}
@@ -207,7 +232,7 @@ function TableGrid<TData>({
           fontSize: '0.875rem',
         }}
       >
-        {getTableDataStatus(displayedRowCount, totalRowCount, rowUnits)}
+        {getTableDataStatus(animatedDisplayedRowCount, totalRowCount, rowUnits)}
       </Box>
     </Box>
   );

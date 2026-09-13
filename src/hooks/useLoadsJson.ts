@@ -1,13 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 
-import fetchLoads from '@/services/fetchLoads';
+import fetchJsonLoads from '@/services/fetchJsonLoads';
 
-const useFetchLoads = () => {
+const useLoadsJson = (enabled: boolean) => {
   const query = useQuery({
-    queryKey: ['loads'],
-    queryFn: fetchLoads,
+    queryKey: ['json-loads'],
+    queryFn: fetchJsonLoads,
     staleTime: 5 * 60 * 1000, // 5 minutes
     gcTime: 30 * 60 * 1000, // 30 minutes
+    enabled,
   });
 
   return {
@@ -17,4 +18,4 @@ const useFetchLoads = () => {
   };
 };
 
-export default useFetchLoads;
+export default useLoadsJson;

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
-const useDisappearingAnnouncement = (delay = 250) => {
+const useAnnouncement = (delay = 250) => {
   const [text, setText] = useState('');
 
   const announce = useCallback((message: string) => {
@@ -26,4 +26,4 @@ const useDisappearingAnnouncement = (delay = 250) => {
   return { text, announce };
 };
 
-export default useDisappearingAnnouncement;
+export default useAnnouncement;

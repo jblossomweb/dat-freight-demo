@@ -28,6 +28,7 @@ type LinkProps = MuiLinkProps & {
   href?: string;
   to?: string;
   params?: Record<string, string>;
+  search?: Record<string, string | undefined>;
 };
 
 type LinkComponent = (props: LinkProps & { children?: ReactNode }) => ReactElement;

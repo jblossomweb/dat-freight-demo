@@ -8,6 +8,8 @@ import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 
+import useDebouncedValue from '@/hooks/useDebouncedValue';
+
 interface SearchInputProps {
   onSearchChange: (value: string) => void;
   placeholder?: string;
@@ -27,6 +29,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [hidePlaceholder, setHidePlaceholder] = useState(false);
+  const debouncedSearchTerm = useDebouncedValue(searchTerm, debounceMs);
 
   const clearSearch = () => {
     setSearchTerm('');
@@ -34,18 +37,11 @@ const SearchInput: React.FC<SearchInputProps> = ({
   };
 
   useEffect(() => {
-    const handler = setTimeout(() => {
-      onSearchChange(searchTerm);
-    }, debounceMs);
-
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [searchTerm, debounceMs, onSearchChange]);
+    onSearchChange(debouncedSearchTerm);
+  }, [debouncedSearchTerm, onSearchChange]);
 
   return (
     <TextField
-      disabled={isLoading}
       size="small"
       placeholder={hidePlaceholder ? '' : isLoading ? 'Loading...' : placeholder}
       value={searchTerm}
@@ -87,12 +83,15 @@ const SearchInput: React.FC<SearchInputProps> = ({
           ) : null,
         },
         htmlInput: {
-          // 'aria-label':  ariaLabel,
+          disabled: false, // important: do not disable so it doesn't lose focus
+          readOnly: isLoading, // important: protect api during loading since we are not disabling
+
+          'aria-label': `${ariaLabel}. Press Escape to clear search.`,
+          'aria-busy': isLoading,
+
+          // too noisy IMO, but can be enabled:
           // 'aria-keyshortcuts': 'Escape',
           // 'aria-description': 'Escape to clear search',
-          'aria-label': `${ariaLabel}. Press Escape to clear search.`,
-          // non-standard: attempt to avoid duplicate screen read if placeholder matches
-          // 'aria-placeholder': placeholder.includes(ariaLabel) ? '' : placeholder,
         },
       }}
       sx={{
