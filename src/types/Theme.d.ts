@@ -14,3 +14,8 @@ export interface LinkPalette {
   main: string;
   hover: string;
 }
+
+export interface DialogPalette {
+  close: { main: string, light: string };
+  minimize: { main: string, light: string };
+}

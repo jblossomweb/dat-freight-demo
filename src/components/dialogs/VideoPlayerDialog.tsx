@@ -55,33 +55,66 @@ const VideoPlayerDialog: React.FC<VideoPlayerDialogProps> = ({
             m: 0,
             width: { xs: 'calc(100vw - 16px)', sm: 360 },
             pointerEvents: 'auto',
+            boxShadow: 2,
           }
-          : undefined,
+          : { boxShadow: 2 },
       },
     }}
   >
-    <DialogTitle sx={{ py: isVideoMinimized ? 0.5 : 2, bgcolor: 'primary.main', color: 'primary.contrastText' }}>
+    <DialogTitle
+      sx={{
+        py: isVideoMinimized ? 0.5 : 2,
+        pr: isVideoMinimized ? 1 : 1.5,
+        fontSize: isVideoMinimized ? 16 : 24,
+        bgcolor: 'primary.main',
+        color: 'primary.contrastText',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: isVideoMinimized ? 0.5 : 1,
+      }}
+    >
       {videoTitle ?? 'Video'}
-      <Tooltip title={isVideoMinimized ? 'Expand video' : 'Minimize video'}>
-        <IconButton
-          aria-label={isVideoMinimized ? 'Expand video' : 'Minimize video'}
-          onClick={() => {
-            minimizeVideo(!isVideoMinimized);
-          }}
-          sx={{ position: 'absolute', right: 48, top: isVideoMinimized ? 0 : 8, color: 'inherit' }}
-        >
-          {isVideoMinimized ? <OpenInFullIcon /> : <MinimizeIcon />}
-        </IconButton>
-      </Tooltip>
-      <Tooltip title="Close video">
-        <IconButton
-          aria-label="Close video"
-          onClick={closeVideo}
-          sx={{ position: 'absolute', right: 8, top: isVideoMinimized ? 0 : 8, color: 'inherit' }}
-        >
-          <CloseIcon />
-        </IconButton>
-      </Tooltip>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: isVideoMinimized ? 0.5 : 1, my: isVideoMinimized ? 0 : -1 }}>
+        <Tooltip title={isVideoMinimized ? 'Expand video' : 'Minimize video'}>
+          <IconButton
+            aria-label={isVideoMinimized ? 'Expand video' : 'Minimize video'}
+            onClick={() => {
+              minimizeVideo(!isVideoMinimized);
+            }}
+            size={isVideoMinimized ? 'small' : 'medium'}
+            sx={{
+              color: 'common.white',
+              bgcolor: 'dialog.minimize.main',
+              borderRadius: 1,
+              boxShadow: 2,
+              p: isVideoMinimized ? 0.25 : 0.5,
+              '& svg': { fontSize: isVideoMinimized ? '1rem' : '1.875rem' },
+              '&:hover': { bgcolor: 'dialog.minimize.light' },
+            }}
+          >
+            {isVideoMinimized ? <OpenInFullIcon /> : <MinimizeIcon />}
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Close video">
+          <IconButton
+            aria-label="Close video"
+            onClick={closeVideo}
+            size={isVideoMinimized ? 'small' : 'medium'}
+            sx={{
+              color: 'common.white',
+              bgcolor: 'dialog.close.main',
+              borderRadius: 1,
+              boxShadow: 2,
+              p: isVideoMinimized ? 0.25 : 0.5,
+              '& svg': { fontSize: isVideoMinimized ? '1rem' : '1.875rem' },
+              '&:hover': { bgcolor: 'dialog.close.light' },
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </Tooltip>
+      </Box>
     </DialogTitle>
     <DialogContent sx={{ p: 0 }}>
       {isVideoOpen && (

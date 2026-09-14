@@ -1,4 +1,4 @@
-import type { StatusPalette, EquipmentPalette, LinkPalette } from './types/Theme';
+import type { StatusPalette, EquipmentPalette, LinkPalette, DialogPalette } from './types/Theme';
 
 import { createTheme } from '@mui/material/styles';
 
@@ -7,12 +7,14 @@ declare module '@mui/material/styles' {
     equipment: EquipmentPalette;
     status: StatusPalette;
     link: LinkPalette;
+    dialog: DialogPalette;
   }
 
   interface PaletteOptions {
     equipment: EquipmentPalette;
     status: StatusPalette;
     link: LinkPalette;
+    dialog: DialogPalette;
   }
 }
 
@@ -45,6 +47,10 @@ export const accessibleTheme = createTheme({
           main: 'var(--mui-palette-primary-main)',
           hover: 'var(--mui-palette-primary-dark)',
         },
+        dialog: {
+          minimize: { main: '#016ea9', light: '#0288d1' },
+          close: { main: '#ba4100', light: '#e65100' },
+        },
       },
     },
 
@@ -68,6 +74,10 @@ export const accessibleTheme = createTheme({
         link: {
           main: 'var(--mui-palette-info-light)',
           hover: 'var(--mui-palette-info-main)',
+        },
+        dialog: {
+          minimize: { main: '#016ea9', light: '#0288d1' },
+          close: { main: '#ba4100', light: '#e65100' },
         },
       },
     },
