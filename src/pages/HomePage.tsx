@@ -7,6 +7,7 @@ import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import GitHubIcon from '@mui/icons-material/GitHub';
 
+import getApiBaseUrl from '@/utils/getApiBaseUrl';
 import Link from '@/components/app/Link';
 
 function HomePage() {
@@ -105,6 +106,7 @@ function HomePage() {
           </Typography>
           <List
             sx={{
+              mb: 2,
               listStyleType: 'disc',
               '& em': { fontWeight: 'bold' },
             }}
@@ -146,6 +148,40 @@ function HomePage() {
                   sx={{ fontSize: '1.1em', verticalAlign: 'middle', mr: 0.5 }}
                 />{' '}
                 My LinkedIn Profile
+              </Link>
+            </ListItem>
+          </List>
+
+          <List
+            sx={{
+              listStyleType: 'disc',
+              '& em': { fontWeight: 'bold' },
+            }}
+          >
+            <ListItem>
+              <Link
+                href={`${getApiBaseUrl()}/docs`}
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{ display: 'inline-flex', alignItems: 'center', lineHeight: 1.5 }}
+              >
+                <AutoStoriesIcon
+                  sx={{ fontSize: '1.1em', verticalAlign: 'middle', mr: 0.5 }}
+                />{' '}
+                API Docs
+              </Link>
+            </ListItem>
+            <ListItem>
+              <Link
+                href="https://github.com/jblossomweb/dat-freight-demo-go-api"
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{ display: 'inline-flex', alignItems: 'center', lineHeight: 1.5 }}
+              >
+                <GitHubIcon
+                  sx={{ fontSize: '1.1em', verticalAlign: 'middle', mr: 0.5 }}
+                />{' '}
+                API Repository
               </Link>
             </ListItem>
           </List>
