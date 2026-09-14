@@ -7,8 +7,11 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 import useDataSource from '@/hooks/useDataSource';
 import useFetchLoad from '@/hooks/useFetchLoad';
+import formatNumber from '@/utils/formatNumber';
 import FreightLoadTemplate from '@/templates/FreightLoadTemplate';
 import DataSourceToggle from '@/components/inputs/DataSourceToggle';
+import EquipmentLabel from '@/components/labels/EquipmentLabel';
+import StatusLabel from '@/components/labels/StatusLabel';
 import LoadRouteMap from '@/components/maps/LoadRouteMap';
 
 function FreightLoadPage() {
@@ -23,19 +26,30 @@ function FreightLoadPage() {
   return (
     <FreightLoadTemplate
       header={(
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 1 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            {load ? `${load.id} for ${load.companyName}` : urlParams.id}
-            {isLoading && (
-              <CircularProgress
-                color="primary"
-                size={18}
-                enableTrackSlot
-                aria-label="Loading…"
-              />
-            )}
+        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 1 }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 1 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              {load ? `${load.id} for ${load.companyName}` : urlParams.id}
+              {isLoading && (
+                <CircularProgress
+                  color="primary"
+                  size={18}
+                  enableTrackSlot
+                  aria-label="Loading…"
+                />
+              )}
+            </Box>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 2, mb: 1 }}>
+              <DataSourceToggle readOnly value={dataSource} />
+              <EquipmentLabel equipmentType={load?.equipmentType} />
+              <StatusLabel status={load?.status} />
+            </Box>
           </Box>
-          <DataSourceToggle readOnly value={dataSource} />
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 0.5, fontSize: '0.875rem', textAlign: 'right' }}>
+            <Box>{load ? new Date(load.date).toLocaleString('en-us',{ dateStyle: 'long' }) : ''}</Box>
+            <Box>{load ? `${formatNumber(load.distance)} miles` : ''}</Box>
+            <Box>{load ? `${formatNumber(load.weight)} pounds` : ''}</Box>
+          </Box>
         </Box>
       )}
     >
