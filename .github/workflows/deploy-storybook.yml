@@ -41,3 +41,18 @@ jobs:
         
       - name: Invalidate CloudFront Cache
         run: aws cloudfront create-invalidation --distribution-id ${{ secrets.STORYBOOK_DISTRIBUTION_ID }} --paths "/*"
+
+      - name: Report Storybook URL
+        run: |
+          S3_BUCKET="dat-freight-demo-storybook"
+          S3_REGION="$(aws s3api get-bucket-location --bucket "$S3_BUCKET" --query 'LocationConstraint' --output text)"
+          if [[ "$S3_REGION" == "None" ]]; then S3_REGION="us-east-1"; fi
+          CLOUDFRONT_URL="https://$(aws cloudfront get-distribution --id '${{ secrets.STORYBOOK_DISTRIBUTION_ID }}' --query 'Distribution.DomainName' --output text)"
+          S3_WEBSITE_URL="http://${S3_BUCKET}.s3-website-${S3_REGION}.amazonaws.com/"
+          echo "CloudFront URL: $CLOUDFRONT_URL"
+          echo "S3 website URL: $S3_WEBSITE_URL"
+          echo "## Storybook deployment complete" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Endpoint | URL |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| --- | --- |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| CloudFront | [$CLOUDFRONT_URL]($CLOUDFRONT_URL) |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| S3 website | [$S3_WEBSITE_URL]($S3_WEBSITE_URL) |" >> "$GITHUB_STEP_SUMMARY"
