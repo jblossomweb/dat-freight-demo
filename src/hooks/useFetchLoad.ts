@@ -2,7 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 import type { Load } from '@/types/Load';
 import type { DataSource } from '@/types/DataSource';
-import fetchLoadById from '@/services/fetchLoadById';
+import fetchJsonLoadById from '@/services/fetchJsonLoadById';
 import fetchApiLoadById from '@/services/fetchApiLoadById';
 
 const useFetchLoad = (id: string, dataSource: DataSource) => {
@@ -11,7 +11,7 @@ const useFetchLoad = (id: string, dataSource: DataSource) => {
 
   return useQuery<Load>({
     queryKey: ['load', dataSource, id],
-    queryFn: () => isJson ? fetchLoadById(id) : fetchApiLoadById(id),
+    queryFn: () => isJson ? fetchJsonLoadById(id) : fetchApiLoadById(id),
     enabled: Boolean(id) && Boolean(dataSource),
     placeholderData: isJson
       ? () => (

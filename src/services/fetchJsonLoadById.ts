@@ -3,7 +3,7 @@ import type { Load } from '@/types/Load';
 import fetchJsonLoads from './fetchJsonLoads';
 
 // fake service to simulate fetching a single load from an API
-const fetchLoadById = async (id: string): Promise<Load> => {
+const fetchJsonLoadById = async (id: string): Promise<Load> => {
   // use the existing fake fetchJsonLoads service
   const loads = await fetchJsonLoads();
   const load = loads.find(load => load.id === id);
@@ -15,4 +15,4 @@ const fetchLoadById = async (id: string): Promise<Load> => {
   return load;
 };
 
-export default fetchLoadById;
+export default fetchJsonLoadById;
