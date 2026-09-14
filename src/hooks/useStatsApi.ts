@@ -2,10 +2,12 @@ import { useQuery } from '@tanstack/react-query';
 
 import fetchApiStats from '@/services/fetchApiStats';
 
-const useStatsApi = (enabled: boolean) => {
+const useStatsApi = (search: string, enabled: boolean) => {
+  const trimmedSearch = search.trim();
+
   const query = useQuery({
-    queryKey: ['api-stats'],
-    queryFn: fetchApiStats,
+    queryKey: ['api-stats', trimmedSearch],
+    queryFn: () => fetchApiStats({ quickSearch: trimmedSearch }),
     staleTime: 30 * 1000,
     gcTime: 5 * 60 * 1000,
     retry: false,

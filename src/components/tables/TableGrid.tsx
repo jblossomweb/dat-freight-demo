@@ -1,4 +1,4 @@
-import type { ColDef, GridApi, IDatasource } from 'ag-grid-community';
+import type { ColDef, GridApi, IDatasource, QuickFilterMatcher } from 'ag-grid-community';
 import type { FilterModel } from '@/types/Filter';
 
 import { useMemo, useState, useRef } from 'react';
@@ -43,6 +43,11 @@ ModuleRegistry.registerModules([
   RowApiModule,
   TextFilterModule,
 ]);
+
+// explicitly tell AG Grid to match space-delimited terms using OR logic
+const quickFilterMatcher: QuickFilterMatcher = (quickFilterParts, rowQuickFilterAggregateText) => (
+  quickFilterParts.some(part => rowQuickFilterAggregateText.includes(part))
+);
 
 export interface GridSortRule {
   colId: string;
@@ -173,6 +178,7 @@ function TableGrid<TData>({
         datasource={datasource}
         cacheBlockSize={rowModelType === 'infinite' ? pageSize : undefined}
         quickFilterText={rowModelType === 'clientSide' ? searchQuery : undefined}
+        quickFilterMatcher={rowModelType === 'clientSide' ? quickFilterMatcher : undefined}
         onGridReady={(event) => {
           onGridReady?.(event.api);
         }}

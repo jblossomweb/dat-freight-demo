@@ -1,17 +1,20 @@
 import type { LoadStatus, EquipmentType } from '@/types/Load';
 
+import { useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
 
 import countBy from '@/utils/countBy';
+import quickSearchLoads from '@/utils/quickSearchLoads';
 import useDataSource from '@/hooks/useDataSource';
 import useFetchJsonLoads from '@/hooks/useLoadsJson';
 import useStatsApi from '@/hooks/useStatsApi';
 
 import StatsTemplate from '@/templates/StatsTemplate';
 import PieChart from '@/components/charts/PieChart';
+import SearchInput from '@/components/inputs/SearchInput';
 import DataSourceToggle from '@/components/inputs/DataSourceToggle';
 import EquipmentLabel from '@/components/labels/EquipmentLabel';
 import StatusLabel from '@/components/labels/StatusLabel';
@@ -19,14 +22,19 @@ import StatusLabel from '@/components/labels/StatusLabel';
 function StatsPage() {
   const theme = useTheme();
   const palette = theme.vars?.palette ?? theme.palette;
+  const [search, setSearch] = useState('');
   const [dataSource, setDataSource] = useDataSource();
   const isJson = dataSource === 'json';
 
   const loadsJson = useFetchJsonLoads(isJson);
-  const statsApi = useStatsApi(!isJson);
+  const statsApi = useStatsApi(search, !isJson);
 
   const isLoading = isJson ? loadsJson.isLoading : statsApi.isLoading;
   const error = isJson ? loadsJson.error : statsApi.error;
+
+  const filteredJsonLoads = isJson
+    ? quickSearchLoads(loadsJson.loads, search)
+    : [];
 
   const equipmentColors: Record<EquipmentType, string> = {
     Flatbed: palette.equipment.flatbed,
@@ -42,7 +50,7 @@ function StatsPage() {
 
   const equipmentData = isJson
     ? countBy(
-      loadsJson.loads.map(load => load.equipmentType),
+      filteredJsonLoads.map(load => load.equipmentType),
       ['Flatbed', 'Reefer', 'Van'] satisfies EquipmentType[],
     ).map(item => ({
       ...item,
@@ -55,7 +63,7 @@ function StatsPage() {
 
   const statusData = isJson
     ? countBy(
-      loadsJson.loads.map(load => load.status),
+      filteredJsonLoads.map(load => load.status),
       ['Available', 'In Transit', 'Delivered'] satisfies LoadStatus[],
     ).map(item => ({
       ...item,
@@ -68,7 +76,12 @@ function StatsPage() {
 
   return (
     <StatsTemplate>
-      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-start' }}>
+      <Box sx={{ width: '100%', display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 2 }}>
+        <SearchInput
+          placeholder="Search Loads..."
+          ariaLabel="Search Loads"
+          onSearchChange={setSearch}
+        />
         <DataSourceToggle value={dataSource} onChange={setDataSource} />
       </Box>
       {error ? (
