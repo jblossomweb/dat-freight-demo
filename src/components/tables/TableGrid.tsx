@@ -1,4 +1,4 @@
-import type { ColDef, GridApi, IDatasource, QuickFilterMatcher } from 'ag-grid-community';
+import type { ColDef, GridApi, IDatasource, QuickFilterMatcher, QuickFilterParser } from 'ag-grid-community';
 import type { FilterModel } from '@/types/Filter';
 
 import { useMemo, useState, useRef } from 'react';
@@ -22,6 +22,7 @@ import {
 
 import getFilterAnnouncement from '@/utils/getFilterAnnouncement';
 import getTableDataStatus from '@/utils/getTableDataStatus';
+import parseQuickSearchTerms from '@/utils/parseQuickSearchTerms';
 
 import useGridTheme from '@/hooks/useGridTheme';
 import useAnnouncement from '@/hooks/useAnnouncement';
@@ -44,9 +45,13 @@ ModuleRegistry.registerModules([
   TextFilterModule,
 ]);
 
-// explicitly tell AG Grid to match space-delimited terms using OR logic
+// explicitly tell AG Grid to match search terms using OR logic
 const quickFilterMatcher: QuickFilterMatcher = (quickFilterParts, rowQuickFilterAggregateText) => (
   quickFilterParts.some(part => rowQuickFilterAggregateText.includes(part))
+);
+
+const quickFilterParser: QuickFilterParser = search => (
+  parseQuickSearchTerms(search).map(term => term.toUpperCase())
 );
 
 export interface GridSortRule {
@@ -178,6 +183,7 @@ function TableGrid<TData>({
         datasource={datasource}
         cacheBlockSize={rowModelType === 'infinite' ? pageSize : undefined}
         quickFilterText={rowModelType === 'clientSide' ? searchQuery : undefined}
+        quickFilterParser={rowModelType === 'clientSide' ? quickFilterParser : undefined}
         quickFilterMatcher={rowModelType === 'clientSide' ? quickFilterMatcher : undefined}
         onGridReady={(event) => {
           onGridReady?.(event.api);

@@ -1,12 +1,10 @@
 import type { Load } from '@/types/Load';
 
-// case-insensitive, substring match; any space-separated term matching is a hit (OR)
+import parseQuickSearchTerms from '@/utils/parseQuickSearchTerms';
+
+// case-insensitive, substring match; any search term matching is a hit (OR)
 const quickSearchLoads = (loads: Load[], search: string): Load[] => {
-  const terms = search
-    .trim()
-    .toLowerCase()
-    .split(/\s+/)
-    .filter(Boolean);
+  const terms = parseQuickSearchTerms(search);
 
   if (terms.length === 0) {
     return loads;
