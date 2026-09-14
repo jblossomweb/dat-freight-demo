@@ -14,9 +14,9 @@ import LoadRouteMap from '@/components/maps/LoadRouteMap';
 function FreightLoadPage() {
   const path = '/freight-load/$id';
   const urlParams = useParams({ from: path });
-  const queryString = useSearch({ from: path });
+  const queryStringParams = useSearch({ from: path });
   const [storedDataSource] = useDataSource();
-  const dataSource = (queryString.dataSource ?? storedDataSource);
+  const dataSource = (queryStringParams.dataSource ?? storedDataSource);
 
   const { data: load, isLoading, error } = useFetchLoad(urlParams.id, dataSource);
 

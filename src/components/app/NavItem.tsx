@@ -1,14 +1,16 @@
 import React from 'react';
 
-import { Link } from '@tanstack/react-router';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 
+import Link from '@/components/app/Link';
+
 interface NavItemProps {
   title: string;
   link?: string;
+  search?: Record<string, string | undefined>;
   icon?: React.ReactNode;
   active?: boolean;
   collapsed?: boolean;
@@ -17,6 +19,7 @@ interface NavItemProps {
 const NavItem: React.FC<NavItemProps> = ({
   title,
   link,
+  search,
   icon,
   active = false,
   collapsed = false,
@@ -27,6 +30,7 @@ const NavItem: React.FC<NavItemProps> = ({
       aria-current={active ? 'page' : undefined}
       component={Link}
       to={link}
+      search={search}
       sx={{
         borderRadius: 1.5,
         justifyContent: collapsed ? 'center' : 'flex-start',

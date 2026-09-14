@@ -1,6 +1,7 @@
 import type { Load } from '@/types/Load';
 import type { DataSource } from '@/types/DataSource';
 
+import { useNavigate, useSearch } from '@tanstack/react-router';
 import { Suspense, useState, useEffect, useCallback } from 'react';
 import lazyPreload from '@/utils/lazyPreload';
 
@@ -24,7 +25,10 @@ const [LoadsTable, lazyloadLoadsTable] = lazyPreload(
 );
 
 function FreightLoadsPage() {
-  const [search, setSearch] = useState('');
+  const from = '/freight-loads';
+  const queryStringParams = useSearch({ from });
+  const navigate = useNavigate({ from });
+  const search = queryStringParams.q ?? '';
   const [dataSource, setDataSource] = useDataSource();
   const [tableChunkLoading, setTableChunkLoading] = useState(true);
   const [tableChunkError, setTableChunkError] = useState<Error | undefined>();
@@ -73,6 +77,13 @@ function FreightLoadsPage() {
     filterModel.onFilterChange({});
   };
 
+  const handleSearchChange = (value: string) => {
+    void navigate({
+      search: { q: value || undefined },
+      replace: true,
+    });
+  };
+
   const isDataLoading =  loadsJson.isLoading || loadsApi.isLoading || prefetchApiLoads.isLoading;
   const isGridLoading = isJson ? loadsJson.isLoading : loadsApi.isLoading;
   const isLoading = tableChunkLoading || isDataLoading;
@@ -99,7 +110,8 @@ function FreightLoadsPage() {
           placeholder="Search Loads..."
           ariaLabel="Search Loads"
           isLoading={isLoading}
-          onSearchChange={setSearch}
+          value={search}
+          onSearchChange={handleSearchChange}
         />
         <DataSourceToggle
           value={dataSource}

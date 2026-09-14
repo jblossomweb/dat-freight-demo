@@ -1,6 +1,6 @@
 import type { LoadStatus, EquipmentType } from '@/types/Load';
 
-import { useState } from 'react';
+import { useNavigate, useSearch } from '@tanstack/react-router';
 import { useTheme } from '@mui/material/styles';
 
 import Box from '@mui/material/Box';
@@ -20,9 +20,12 @@ import EquipmentLabel from '@/components/labels/EquipmentLabel';
 import StatusLabel from '@/components/labels/StatusLabel';
 
 function StatsPage() {
+  const from = '/stats';
   const theme = useTheme();
   const palette = theme.vars?.palette ?? theme.palette;
-  const [search, setSearch] = useState('');
+  const queryStringParams = useSearch({ from });
+  const navigate = useNavigate({ from });
+  const search = queryStringParams.q ?? '';
   const [dataSource, setDataSource] = useDataSource();
   const isJson = dataSource === 'json';
 
@@ -31,6 +34,13 @@ function StatsPage() {
 
   const isLoading = isJson ? loadsJson.isLoading : statsApi.isLoading;
   const error = isJson ? loadsJson.error : statsApi.error;
+
+  const handleSearchChange = (value: string) => {
+    void navigate({
+      search: { q: value || undefined },
+      replace: true,
+    });
+  };
 
   const filteredJsonLoads = isJson
     ? quickSearchLoads(loadsJson.loads, search)
@@ -80,7 +90,8 @@ function StatsPage() {
         <SearchInput
           placeholder="Search Loads..."
           ariaLabel="Search Loads"
-          onSearchChange={setSearch}
+          value={search}
+          onSearchChange={handleSearchChange}
         />
         <DataSourceToggle value={dataSource} onChange={setDataSource} />
       </Box>

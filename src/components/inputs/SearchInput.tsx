@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useEffectEvent } from 'react';
 
 import TextField from '@mui/material/TextField';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -12,6 +12,7 @@ import useDebouncedValue from '@/hooks/useDebouncedValue';
 
 interface SearchInputProps {
   onSearchChange: (value: string) => void;
+  value?: string;
   placeholder?: string;
   ariaLabel?: string;
   debounceMs?: number;
@@ -21,15 +22,25 @@ interface SearchInputProps {
 
 const SearchInput: React.FC<SearchInputProps> = ({
   onSearchChange,
+  value = '',
   placeholder = 'Search...',
   ariaLabel = 'Search',
   debounceMs = 500,
   width = '100%',
   isLoading = false,
 }) => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState(value);
+  const [previousValue, setPreviousValue] = useState(value);
   const [hidePlaceholder, setHidePlaceholder] = useState(false);
   const debouncedSearchTerm = useDebouncedValue(searchTerm, debounceMs);
+
+  // Use the latest callback without debounce, so clear actions are not overwritten.
+  const notifySearchChange = useEffectEvent(onSearchChange);
+
+  if (value !== previousValue) {
+    setPreviousValue(value);
+    setSearchTerm(value);
+  }
 
   const clearSearch = () => {
     setSearchTerm('');
@@ -37,8 +48,8 @@ const SearchInput: React.FC<SearchInputProps> = ({
   };
 
   useEffect(() => {
-    onSearchChange(debouncedSearchTerm);
-  }, [debouncedSearchTerm, onSearchChange]);
+    notifySearchChange(debouncedSearchTerm);
+  }, [debouncedSearchTerm]);
 
   return (
     <TextField

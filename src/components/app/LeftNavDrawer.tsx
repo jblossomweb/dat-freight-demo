@@ -18,6 +18,7 @@ interface LeftNavDrawerProps {
   width: number;
   branding?: React.ReactNode;
   currentPath?: string;
+  quickSearch?: string;
   open?: boolean;
   toggleDrawer?: () => void;
 }
@@ -26,6 +27,7 @@ const LeftNavDrawer: React.FC<LeftNavDrawerProps> = ({
   width,
   branding = null,
   currentPath,
+  quickSearch,
   open,
   toggleDrawer,
 }) => (
@@ -94,6 +96,7 @@ const LeftNavDrawer: React.FC<LeftNavDrawerProps> = ({
         <NavItem
           title="Freight Loads"
           link="/freight-loads"
+          search={{ q: quickSearch ?? undefined }}
           active={
             currentPath === '/freight-loads' ||
             currentPath?.startsWith('/freight-load/')
@@ -104,6 +107,7 @@ const LeftNavDrawer: React.FC<LeftNavDrawerProps> = ({
         <NavItem
           title="Statistics"
           link="/stats"
+          search={{ q: quickSearch ?? undefined }}
           active={currentPath === '/stats'}
           collapsed={!open}
           icon={<LeaderboardIcon />}

@@ -15,10 +15,11 @@ const DRAWER_WIDTH_COLLAPSED = 90;
 interface AppLayoutProps {
   pageTitle?: string;
   currentPath?: string;
+  quickSearch?: string;
   children: React.ReactNode;
 }
 
-const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle, currentPath }) => {
+const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle, currentPath, quickSearch }) => {
 
   const [drawerOpen, setDrawerOpen] = useState(true); // default to open
   const toggleDrawer = () => {
@@ -49,6 +50,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle, currentPath 
         width={drawerWidth}
         branding={<LogoBox width={drawerWidth * 0.6} />}
         currentPath={currentPath}
+        quickSearch={quickSearch}
         open={drawerOpen}
         toggleDrawer={toggleDrawer}
       />
