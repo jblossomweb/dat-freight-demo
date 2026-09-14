@@ -3,6 +3,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 import { PieChart as MuiPieChart } from '@mui/x-charts';
 
+import formatNumber from '@/utils/formatNumber';
+
 interface PieChartProps {
   title: string;
   isLoading?: boolean;
@@ -38,7 +40,7 @@ const PieChart: React.FC<PieChartProps> = ({ title, isLoading, data, renderLabel
         : data.map(item => (
           <Box component="li" key={item.label} sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
             {renderLabel(item.label)}
-            <Typography component="span" variant="body2">({item.value})</Typography>
+            <Typography component="span" variant="body2">({formatNumber(item.value)})</Typography>
           </Box>
         ))}
     </Box>
