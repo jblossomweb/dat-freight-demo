@@ -13,7 +13,7 @@ import 'maplibre-gl/dist/maplibre-gl.css'; // map styles for MapLibre GL
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { accessibleTheme } from './theme';
-import { VideoPlayerProvider } from '@/components/app/VideoPlayerProvider';
+import { VideoPlayerProvider } from '@/context/VideoPlayerProvider';
 
 const router = createRouter({ routeTree });
 const queryClient = new QueryClient();

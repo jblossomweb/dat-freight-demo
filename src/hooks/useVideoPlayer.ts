@@ -1,6 +1,8 @@
+import type { VideoPlayerContextValue } from '@/context/VideoPlayerContext';
+
 import { use } from 'react';
 
-import { VideoPlayerContext, type VideoPlayerContextValue } from './VideoPlayerContext';
+import { VideoPlayerContext } from '@/context/VideoPlayerContext';
 
 const useVideoPlayer = (): VideoPlayerContextValue => {
   const context = use(VideoPlayerContext);

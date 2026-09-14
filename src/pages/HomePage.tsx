@@ -10,7 +10,7 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 
 import getApiBaseUrl from '@/utils/getApiBaseUrl';
 import Link from '@/components/app/Link';
-import useVideoPlayer from '@/components/app/useVideoPlayer';
+import useVideoPlayer from '@/hooks/useVideoPlayer';
 
 function HomePage() {
   const { openVideo } = useVideoPlayer();
