@@ -13,6 +13,7 @@ import 'maplibre-gl/dist/maplibre-gl.css'; // map styles for MapLibre GL
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { accessibleTheme } from './theme';
+import { VideoPlayerProvider } from '@/components/app/VideoPlayerProvider';
 
 const router = createRouter({ routeTree });
 const queryClient = new QueryClient();
@@ -35,7 +36,9 @@ if (!rootElement.innerHTML) {
       <ThemeProvider theme={accessibleTheme} defaultMode="system">
         <CssBaseline />
         <QueryClientProvider client={queryClient}>
-          <RouterProvider router={router} />
+          <VideoPlayerProvider>
+            <RouterProvider router={router} />
+          </VideoPlayerProvider>
         </QueryClientProvider>
       </ThemeProvider>
     </StrictMode>,

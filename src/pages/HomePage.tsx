@@ -6,11 +6,15 @@ import Typography from '@mui/material/Typography';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 
 import getApiBaseUrl from '@/utils/getApiBaseUrl';
 import Link from '@/components/app/Link';
+import useVideoPlayer from '@/components/app/useVideoPlayer';
 
 function HomePage() {
+  const { openVideo } = useVideoPlayer();
+
   return (
     <Box sx={{ width: '100%' }}>
       <Typography variant="h4" gutterBottom sx={{ mb: 2 }}>
@@ -182,6 +186,21 @@ function HomePage() {
                   sx={{ fontSize: '1.1em', verticalAlign: 'middle', mr: 0.5 }}
                 />{' '}
                 API Repository
+              </Link>
+            </ListItem>
+            <ListItem>
+              <Link
+                href="https://www.youtube.com/watch?v=Jh1OHzISXok"
+                onClick={(event) => {
+                  event.preventDefault();
+                  openVideo();
+                }}
+                sx={{ display: 'inline-flex', alignItems: 'center', lineHeight: 1.5 }}
+              >
+                <LocalShippingIcon
+                  sx={{ fontSize: '1.1em', verticalAlign: 'middle', mr: 0.5 }}
+                />{' '}
+                Eddie Rabbitt
               </Link>
             </ListItem>
           </List>
