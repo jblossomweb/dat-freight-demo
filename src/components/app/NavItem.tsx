@@ -56,7 +56,7 @@ const NavItem: React.FC<NavItemProps> = ({
           transitionDelay: collapsed ? '0ms' : `${String(theme.transitions.duration.shorter)}ms`,
         })}
         slotProps={{
-          primary: { sx: { fontWeight: 500 } },
+          primary: { sx: { fontWeight: 500, color: 'common.white' } },
         }}
       />
     </ListItemButton>
