@@ -2,12 +2,69 @@
 
 This is a demo app as part of my application to a Senior Frontend Software Engineer role at DAT Freight & Analytics.
 
+## Quick start guide
+
+### 1. unzip or clone this repo:
+
+```bash
+git clone git@github.com:jblossomweb/dat-freight-demo.git
+```
+
+### 2. install dependencies:
+
+```bash
+npm install
+```
+
+### 3. copy env file:
+
+```bash
+cp .env.local.example .env.local
+```
+
+optional:
+
+- You can keep the default to point at the local Docker stack for the API
+- Or you can point it at a production API deployment (see [dat-freight-demo-go-api](https://github.com/jblossomweb/dat-freight-demo-go-api))
+
+### 4. start the dev server:
+
+```bash
+npm run dev
+```
+
+### 5. open your browser:
+
+http://localhost:5173/
+
+## Production build
+
+To make a production build locally:
+
+### 1. make a build:
+
+```bash
+npm run build
+```
+
+### 2. serve it up:
+
+```bash
+npm run preview
+```
+
+### 3. open your browser:
+
+http://localhost:4173/
+
 ## Sample Deployment
 
 I have set up pipelines to deploy this application and its component library to the following URLs:
 
 - Application: http://dat-freight-demo.s3-website-us-west-2.amazonaws.com/
 - Storybook: http://dat-freight-demo-storybook.s3-website-us-west-2.amazonaws.com/
+
+Note: I have yet to setup https for the CloudFront deployment, so for now just use the above S3 website URLs via http.
 
 ## Overview
 
