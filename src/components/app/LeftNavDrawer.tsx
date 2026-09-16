@@ -64,6 +64,7 @@ const LeftNavDrawer: React.FC<LeftNavDrawerProps> = ({
           color: 'common.white',
         }}
         aria-label="Toggle Drawer"
+        aria-expanded={open}
       >
         {open ? <MenuOpenIcon aria-label="Collapse Menu" /> : <MenuIcon aria-label="Expand Menu" />}
       </IconButton>

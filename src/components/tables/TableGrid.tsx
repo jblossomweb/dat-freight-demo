@@ -25,8 +25,8 @@ import getTableDataStatus from '@/utils/getTableDataStatus';
 import parseQuickSearchTerms from '@/utils/parseQuickSearchTerms';
 
 import useGridTheme from '@/hooks/useGridTheme';
-import useAnnouncement from '@/hooks/useAnnouncement';
 import useAnimatedCount from '@/hooks/useAnimatedCount';
+import useAnnouncement from '@/hooks/useAnnouncement';
 import AriaAnnouncement from '@/components/app/AriaAnnouncement';
 
 // enable only AG Grid modules that are being used
@@ -198,17 +198,21 @@ function TableGrid<TData>({
           const lastSearch = lastSearchRef.current;
           lastSearchRef.current = newSearch ?? '';
 
-          announcement.announce(
-            getFilterAnnouncement({
-              searchQuery: newSearch,
-              lastSearch,
-              filterModel: newFilterModel,
-              filteredRowCount: newRowCount,
-              totalRowCount,
-              rowUnits,
-            }),
-          );
           onFilterChange?.(newFilterModel);
+
+          // delay the announcement to prevent interruption by native input feedback
+          setTimeout(() => {
+            announcement.announce(
+              getFilterAnnouncement({
+                searchQuery: newSearch,
+                lastSearch,
+                filterModel: newFilterModel,
+                filteredRowCount: newRowCount,
+                totalRowCount,
+                rowUnits,
+              }),
+            );
+          }, 250);
         }}
         onSortChanged={(event) => {
           const newColumnStates = event.api.getColumnState();
