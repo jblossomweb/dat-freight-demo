@@ -2,6 +2,9 @@
 
 <!-- What does this change do, and why? -->
 
+<!-- Optional but Encouraged: take a moment to reflect. Replace the cat GIF or remove this section. -->
+![How this change feels](https://media.giphy.com/media/3oKIPnAiaMCws8nOsE/giphy.gif)
+
 ## Changes
 
 <!-- List the meaningful implementation changes. -->
