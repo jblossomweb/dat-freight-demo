@@ -5,10 +5,33 @@ on:
     paths-ignore:
       - '.storybook/**'
       - '**/*.stories.**'
+      - '.github/actions/report-workflow/action.yml'
+      - '.github/PULL_REQUEST_TEMPLATE.md'
+
+permissions:
+  actions: read
+  contents: read
+  pull-requests: write
 
 jobs:
   validate:
     uses: ./.github/workflows/validate.yml
+
+  report:
+    name: Report
+    needs: validate
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v5
+
+      - name: Report Validation
+        uses: ./.github/actions/report-workflow
+        with:
+          title: Application Validation
+          status: ${{ needs.validate.result }}
+          commit: ${{ github.sha }}
 
   deploy:
     needs: validate
@@ -41,7 +64,8 @@ jobs:
       - name: Invalidate CloudFront Cache
         run: aws cloudfront create-invalidation --distribution-id ${{ secrets.APP_DISTRIBUTION_ID }} --paths "/*"
 
-      - name: Report Production URL
+      - name: Resolve Production URLs
+        id: production-url
         run: |
           S3_BUCKET="dat-freight-demo"
           S3_REGION="$(aws s3api get-bucket-location --bucket "$S3_BUCKET" --query 'LocationConstraint' --output text)"
@@ -50,8 +74,16 @@ jobs:
           S3_WEBSITE_URL="http://${S3_BUCKET}.s3-website-${S3_REGION}.amazonaws.com/"
           echo "CloudFront URL: $CLOUDFRONT_URL"
           echo "S3 website URL: $S3_WEBSITE_URL"
-          echo "## Deployment complete" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Endpoint | URL |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| --- | --- |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| CloudFront | [$CLOUDFRONT_URL]($CLOUDFRONT_URL) |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| S3 website | [$S3_WEBSITE_URL]($S3_WEBSITE_URL) |" >> "$GITHUB_STEP_SUMMARY"
+          echo "cloudfront_url=$CLOUDFRONT_URL" >> "$GITHUB_OUTPUT"
+          echo "s3_website_url=$S3_WEBSITE_URL" >> "$GITHUB_OUTPUT"
+
+      - name: Report Production Deployment
+        uses: ./.github/actions/report-workflow
+        with:
+          title: Production Deployment
+          status: success
+          commit: ${{ github.sha }}
+          deployment-links: |
+            - [CloudFront](${{ steps.production-url.outputs.cloudfront_url }})
+            - [S3 website](${{ steps.production-url.outputs.s3_website_url }})
+          comment-on-pr: 'true'
