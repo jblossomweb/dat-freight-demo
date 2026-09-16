@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Box from '@mui/material/Box';
 
 import AriaAnnouncement from '@/components/app/AriaAnnouncement';
@@ -9,8 +8,7 @@ import LeftNavDrawer from '@/components/app/LeftNavDrawer';
 import LogoBox from '@/components/app/LogoBox';
 import DarkModeToggle from '@/components/app/DarkModeToggle';
 
-const DRAWER_WIDTH = 240;
-const DRAWER_WIDTH_COLLAPSED = 90;
+import useDrawer from '@/hooks/useDrawer';
 
 interface AppLayoutProps {
   pageTitle?: string;
@@ -21,12 +19,7 @@ interface AppLayoutProps {
 
 const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle, currentPath, quickSearch }) => {
 
-  const [drawerOpen, setDrawerOpen] = useState(true); // default to open
-  const toggleDrawer = () => {
-    setDrawerOpen(!drawerOpen);
-  };
-
-  const drawerWidth = drawerOpen ? DRAWER_WIDTH : DRAWER_WIDTH_COLLAPSED;
+  const drawer = useDrawer();
 
   return (
     <Box sx={{
@@ -42,17 +35,17 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle, currentPath,
 
       <HeaderBar
         title={pageTitle}
-        drawerWidth={drawerWidth}
+        drawerWidth={drawer.width}
         actions={<DarkModeToggle />}
       />
 
       <LeftNavDrawer
-        width={drawerWidth}
-        branding={<LogoBox width={drawerWidth * 0.6} />}
+        width={drawer.width}
+        branding={<LogoBox width={drawer.width * 0.6} />}
         currentPath={currentPath}
         quickSearch={quickSearch}
-        open={drawerOpen}
-        toggleDrawer={toggleDrawer}
+        open={drawer.open}
+        toggleDrawer={drawer.toggle}
       />
 
       <Box
