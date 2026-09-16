@@ -83,6 +83,6 @@ jobs:
           status: success
           commit: ${{ github.sha }}
           deployment-links: |
-            - [CloudFront](${{ steps.storybook-url.outputs.cloudfront_url }})
-            - [S3 website](${{ steps.storybook-url.outputs.s3_website_url }})
+            | CloudFront | [${{ steps.storybook-url.outputs.cloudfront_url }}](${{ steps.storybook-url.outputs.cloudfront_url }}) |
+            | S3 website | [${{ steps.storybook-url.outputs.s3_website_url }}](${{ steps.storybook-url.outputs.s3_website_url }}) |
           comment-on-pr: 'true'
