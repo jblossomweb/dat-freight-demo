@@ -45,6 +45,8 @@ runs:
         if [[ -n "$DEPLOYMENT_LINKS" ]]; then
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "## Deployment" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Endpoint | URL |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| --- | --- |" >> "$GITHUB_STEP_SUMMARY"
           printf '%s\n' "$DEPLOYMENT_LINKS" >> "$GITHUB_STEP_SUMMARY"
         fi
         echo "" >> "$GITHUB_STEP_SUMMARY"
@@ -113,6 +115,8 @@ runs:
           ${deploymentLinks ? `
 
           Deployment:
+          | Endpoint | URL |
+          | --- | --- |
           ${deploymentLinks}` : ''}`;
 
           await github.rest.issues.createComment({
