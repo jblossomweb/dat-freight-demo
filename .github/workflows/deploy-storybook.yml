@@ -9,6 +9,11 @@ on:
       - '.github/workflows/validate.yml'
       - '.github/actions/setup-node/action.yml'
 
+permissions:
+  actions: read
+  contents: read
+  pull-requests: write
+
 jobs:
   validate:
     uses: ./.github/workflows/validate.yml
@@ -58,7 +63,8 @@ jobs:
       - name: Invalidate CloudFront Cache
         run: aws cloudfront create-invalidation --distribution-id ${{ secrets.STORYBOOK_DISTRIBUTION_ID }} --paths "/*"
 
-      - name: Report Storybook URL
+      - name: Resolve Storybook URLs
+        id: storybook-url
         run: |
           S3_BUCKET="dat-freight-demo-storybook"
           S3_REGION="$(aws s3api get-bucket-location --bucket "$S3_BUCKET" --query 'LocationConstraint' --output text)"
@@ -67,8 +73,16 @@ jobs:
           S3_WEBSITE_URL="http://${S3_BUCKET}.s3-website-${S3_REGION}.amazonaws.com/"
           echo "CloudFront URL: $CLOUDFRONT_URL"
           echo "S3 website URL: $S3_WEBSITE_URL"
-          echo "## Storybook deployment complete" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Endpoint | URL |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| --- | --- |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| CloudFront | [$CLOUDFRONT_URL]($CLOUDFRONT_URL) |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| S3 website | [$S3_WEBSITE_URL]($S3_WEBSITE_URL) |" >> "$GITHUB_STEP_SUMMARY"
+          echo "cloudfront_url=$CLOUDFRONT_URL" >> "$GITHUB_OUTPUT"
+          echo "s3_website_url=$S3_WEBSITE_URL" >> "$GITHUB_OUTPUT"
+
+      - name: Report Storybook Deployment
+        uses: ./.github/actions/report-workflow
+        with:
+          title: Storybook Deployment
+          status: success
+          commit: ${{ github.sha }}
+          deployment-links: |
+            - [CloudFront](${{ steps.storybook-url.outputs.cloudfront_url }})
+            - [S3 website](${{ steps.storybook-url.outputs.s3_website_url }})
+          comment-on-pr: 'true'
