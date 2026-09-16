@@ -8,6 +8,7 @@ import LeftNavDrawer from '@/components/app/LeftNavDrawer';
 import LogoBox from '@/components/app/LogoBox';
 import DarkModeToggle from '@/components/app/DarkModeToggle';
 
+import useAnnouncement from '@/hooks/useAnnouncement';
 import useDrawer from '@/hooks/useDrawer';
 
 interface AppLayoutProps {
@@ -20,6 +21,7 @@ interface AppLayoutProps {
 const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle, currentPath, quickSearch }) => {
 
   const drawer = useDrawer();
+  const announcement = useAnnouncement();
 
   return (
     <Box sx={{
@@ -31,6 +33,10 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle, currentPath,
     >
       <AriaAnnouncement atomic alert>
         {pageTitle ? `${pageTitle} page loaded` : ''}
+      </AriaAnnouncement>
+
+      <AriaAnnouncement>
+        {announcement.text}
       </AriaAnnouncement>
 
       <HeaderBar
@@ -45,7 +51,14 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle, currentPath,
         currentPath={currentPath}
         quickSearch={quickSearch}
         open={drawer.open}
-        toggleDrawer={drawer.toggle}
+        toggleDrawer={() => {
+          drawer.toggle();
+          announcement.announce(
+            drawer.open
+              ? 'Navigation drawer closed'
+              : 'Navigation drawer opened',
+          );
+        }}
       />
 
       <Box
