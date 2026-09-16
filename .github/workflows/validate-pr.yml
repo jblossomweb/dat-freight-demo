@@ -6,6 +6,7 @@ on:
     types: [ opened, synchronize, reopened ]
 
 permissions:
+  actions: read
   contents: read
   pull-requests: write
 
@@ -63,4 +64,8 @@ jobs:
           title: Pull Request Validation
           status: ${{ needs.validate.result == 'success' && needs.build-app.result == 'success' && needs.build-storybook.result == 'success' && 'success' || 'failure' }}
           commit: ${{ github.event.pull_request.head.sha }}
+          checks: |
+            | Validation | `${{ needs.validate.result }}` |
+            | Application build | `${{ needs.build-app.result }}` |
+            | Storybook build | `${{ needs.build-storybook.result }}` |
           comment-on-pr: 'true'

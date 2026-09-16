@@ -10,6 +10,10 @@ inputs:
   commit:
     description: Commit SHA to report
     required: true
+  checks:
+    description: Markdown rows describing individual check results
+    required: false
+    default: ''
   comment-on-pr:
     description: Update the current pull request with a sticky comment
     required: false
@@ -24,6 +28,7 @@ runs:
         REPORT_TITLE: ${{ inputs.title }}
         REPORT_STATUS: ${{ inputs.status }}
         REPORT_COMMIT: ${{ inputs.commit }}
+        REPORT_CHECKS: ${{ inputs.checks }}
         RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
       run: |
         echo "## $REPORT_TITLE" >> "$GITHUB_STEP_SUMMARY"
@@ -42,14 +47,39 @@ runs:
         REPORT_TITLE: ${{ inputs.title }}
         REPORT_STATUS: ${{ inputs.status }}
         REPORT_COMMIT: ${{ inputs.commit }}
+        REPORT_CHECKS: ${{ inputs.checks }}
         RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
       with:
         script: |
-          const marker = '<!-- workflow-report -->';
           const status = process.env.REPORT_STATUS;
           const emoji = status === 'success' ? ':white_check_mark:' : ':x:';
-          const body = `${marker}
-          ## ${emoji} ${process.env.REPORT_TITLE}: \`${status}\`
+          const checks = process.env.REPORT_CHECKS;
+          const jobs = await github.paginate(
+            github.rest.actions.listJobsForWorkflowRun,
+            {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: context.runId,
+            },
+          );
+          const testJob = jobs.find((job) =>
+            job.name === 'Run Tests' || job.name.endsWith(' / Run Tests')
+          );
+          const testSummaryUrl = testJob
+            ? `${process.env.RUN_URL}#summary-${testJob.id}`
+            : process.env.RUN_URL;
+          const checksTable = checks ? `
+
+          | Check | Result |
+          | --- | --- |
+          ${checks}` : '';
+          const body = `<!-- workflow-report -->
+          ## ${emoji} ${process.env.REPORT_TITLE} Summary: \`${status}\`
+
+          ${checksTable}
+
+          Test Summary:
+          [Vitest Test Report](${testSummaryUrl})
 
           Commit: \`${process.env.REPORT_COMMIT}\`
           [View workflow run](${process.env.RUN_URL})`;
