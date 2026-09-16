@@ -5,10 +5,27 @@ on:
     paths-ignore:
       - '.storybook/**'
       - '**/*.stories.**'
+      - '.github/actions/report-workflow/action.yml'
 
 jobs:
   validate:
     uses: ./.github/workflows/validate.yml
+
+  report:
+    name: Report
+    needs: validate
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v5
+
+      - name: Report Validation
+        uses: ./.github/actions/report-workflow
+        with:
+          title: Application Validation
+          status: ${{ needs.validate.result }}
+          commit: ${{ github.sha }}
 
   deploy:
     needs: validate
