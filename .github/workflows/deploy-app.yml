@@ -71,10 +71,13 @@ jobs:
           S3_BUCKET="dat-freight-demo"
           S3_REGION="$(aws s3api get-bucket-location --bucket "$S3_BUCKET" --query 'LocationConstraint' --output text)"
           if [[ "$S3_REGION" == "None" ]]; then S3_REGION="us-east-1"; fi
+          SUBDOMAIN_URL="https://${S3_BUCKET}.jblossom.io"
           CLOUDFRONT_URL="https://$(aws cloudfront get-distribution --id '${{ secrets.APP_DISTRIBUTION_ID }}' --query 'Distribution.DomainName' --output text)"
           S3_WEBSITE_URL="http://${S3_BUCKET}.s3-website-${S3_REGION}.amazonaws.com/"
+          echo "Subdomain URL: $SUBDOMAIN_URL"
           echo "CloudFront URL: $CLOUDFRONT_URL"
           echo "S3 website URL: $S3_WEBSITE_URL"
+          echo "subdomain_url=$SUBDOMAIN_URL" >> "$GITHUB_OUTPUT"
           echo "cloudfront_url=$CLOUDFRONT_URL" >> "$GITHUB_OUTPUT"
           echo "s3_website_url=$S3_WEBSITE_URL" >> "$GITHUB_OUTPUT"
 
@@ -85,6 +88,7 @@ jobs:
           status: success
           commit: ${{ github.sha }}
           deployment-links: |
-            | CloudFront | [${{ steps.production-url.outputs.cloudfront_url }}](${{ steps.production-url.outputs.cloudfront_url }}) |
-            | S3 website | [${{ steps.production-url.outputs.s3_website_url }}](${{ steps.production-url.outputs.s3_website_url }}) |
+            | Subdomain URL (HTTPS) | [${{ steps.production-url.outputs.subdomain_url }}](${{ steps.production-url.outputs.subdomain_url }}) |
+            | CloudFront URL (HTTPS) | [${{ steps.production-url.outputs.cloudfront_url }}](${{ steps.production-url.outputs.cloudfront_url }}) |
+            | S3 website URL (HTTP) | [${{ steps.production-url.outputs.s3_website_url }}](${{ steps.production-url.outputs.s3_website_url }}) |
           comment-on-pr: 'true'
