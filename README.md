@@ -61,10 +61,10 @@ http://localhost:4173/
 
 I have set up pipelines to deploy this application and its component library to the following URLs:
 
-- Application: http://dat-freight-demo.s3-website-us-west-2.amazonaws.com/
+- Application: https://dat-freight-demo.jblossom.io/
 - Storybook: http://dat-freight-demo-storybook.s3-website-us-west-2.amazonaws.com/
 
-Note: I have yet to setup https for the CloudFront deployment, so for now just use the above S3 website URLs via http.
+Note: I have yet to setup https for the Storybook deployment, so for now just use the above S3 website URLs via http.
 
 ## Overview
 
