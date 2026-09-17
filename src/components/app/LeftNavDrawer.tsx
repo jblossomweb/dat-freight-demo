@@ -1,4 +1,5 @@
 import React from 'react';
+import type { DataSource } from '@/types/DataSource';
 
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -19,6 +20,7 @@ interface LeftNavDrawerProps {
   branding?: React.ReactNode;
   currentPath?: string;
   quickSearch?: string;
+  dataSource?: DataSource;
   open?: boolean;
   toggleDrawer?: () => void;
 }
@@ -28,6 +30,7 @@ const LeftNavDrawer: React.FC<LeftNavDrawerProps> = ({
   branding = null,
   currentPath,
   quickSearch,
+  dataSource,
   open,
   toggleDrawer,
 }) => (
@@ -97,7 +100,10 @@ const LeftNavDrawer: React.FC<LeftNavDrawerProps> = ({
         <NavItem
           title="Freight Loads"
           link="/freight-loads"
-          search={{ q: quickSearch ?? undefined }}
+          search={{
+            q: quickSearch ?? undefined,
+            dataSource: dataSource ?? undefined,
+          }}
           active={
             currentPath === '/freight-loads' ||
             currentPath?.startsWith('/freight-load/')
@@ -108,7 +114,10 @@ const LeftNavDrawer: React.FC<LeftNavDrawerProps> = ({
         <NavItem
           title="Statistics"
           link="/stats"
-          search={{ q: quickSearch ?? undefined }}
+          search={{
+            q: quickSearch ?? undefined,
+            dataSource: dataSource ?? undefined,
+          }}
           active={currentPath === '/stats'}
           collapsed={!open}
           icon={<LeaderboardIcon />}

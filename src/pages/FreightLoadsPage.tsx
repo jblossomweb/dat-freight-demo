@@ -61,10 +61,6 @@ function FreightLoadsPage() {
       });
   }, []);
 
-  // useEffect(() => {
-  //   trackTableChunkLoad()
-  // }, []);
-
   const startTableChunkLoad = useCallback(() => {
     setTableChunkLoading(true);
     setTableChunkError(undefined);
@@ -79,7 +75,10 @@ function FreightLoadsPage() {
 
   const handleSearchChange = (value: string) => {
     void navigate({
-      search: { q: value || undefined },
+      search: (prev) => ({
+        ...prev,
+        q: value || undefined,
+      }),
       replace: true,
     });
   };
@@ -91,16 +90,6 @@ function FreightLoadsPage() {
   const error = tableChunkError ?? (isJson
     ? loadsJson.error
     : loadsApi.error ?? prefetchApiLoads.error);
-
-  // debug
-  // const debug = JSON.stringify({
-  //   isLoading: isLoading ? '✅' : '❌',
-  //   isGridLoading: isGridLoading ? '✅' : '❌',
-  //   tableChunkLoading: tableChunkLoading ? '✅' : '❌',
-  //   jsonLoading: loadsJson.isLoading ? '✅' : '❌',
-  //   apiLoading: loadsApi.isLoading ? '✅' : '❌',
-  //   prefetchApiLoadsLoading: prefetchApiLoads.isLoading ? '✅' : '❌',
-  // });
 
   return (
     <FreightLoadsTemplate>

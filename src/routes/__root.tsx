@@ -9,14 +9,19 @@ export const Route = createRootRoute({
 
 // eslint-disable-next-line react-refresh/only-export-components
 function RootComponent() {
-  const { pathname, search: { q: quickSearch } } = useLocation();
+  const { pathname, search: { q: quickSearch, dataSource } } = useLocation();
   const matches = useMatches();
   const { staticData } = matches[matches.length - 1];
   const { title } = staticData;
 
   return (
     <>
-      <AppLayout pageTitle={title} currentPath={pathname} quickSearch={quickSearch}>
+      <AppLayout
+        pageTitle={title}
+        currentPath={pathname}
+        quickSearch={quickSearch}
+        dataSource={dataSource}
+      >
         <Outlet />
       </AppLayout>
     </>

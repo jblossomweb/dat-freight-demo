@@ -1,4 +1,4 @@
-import { useParams, useSearch } from '@tanstack/react-router';
+import { useParams } from '@tanstack/react-router';
 
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
@@ -17,14 +17,13 @@ import LoadRouteMap from '@/components/maps/LoadRouteMap';
 function FreightLoadPage() {
   const path = '/freight-load/$id';
   const urlParams = useParams({ from: path });
-  const queryStringParams = useSearch({ from: path });
-  const [storedDataSource] = useDataSource();
-  const dataSource = (queryStringParams.dataSource ?? storedDataSource);
+  const [dataSource] = useDataSource();
 
   const { data: load, isLoading, error } = useFetchLoad(urlParams.id, dataSource);
 
   return (
     <FreightLoadTemplate
+      dataSource={dataSource}
       header={(
         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 1 }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 1 }}>

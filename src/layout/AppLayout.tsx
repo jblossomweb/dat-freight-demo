@@ -1,3 +1,5 @@
+import type { DataSource } from '@/types/DataSource';
+
 import Box from '@mui/material/Box';
 
 import AriaAnnouncement from '@/components/app/AriaAnnouncement';
@@ -15,10 +17,17 @@ interface AppLayoutProps {
   pageTitle?: string;
   currentPath?: string;
   quickSearch?: string;
+  dataSource?: DataSource;
   children: React.ReactNode;
 }
 
-const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle, currentPath, quickSearch }) => {
+const AppLayout: React.FC<AppLayoutProps> = ({
+  children,
+  pageTitle,
+  currentPath,
+  quickSearch,
+  dataSource,
+}) => {
 
   const drawer = useDrawer();
   const announcement = useAnnouncement();
@@ -50,6 +59,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children, pageTitle, currentPath,
         branding={<LogoBox width={drawer.width * 0.6} />}
         currentPath={currentPath}
         quickSearch={quickSearch}
+        dataSource={dataSource}
         open={drawer.open}
         toggleDrawer={() => {
           drawer.toggle();
