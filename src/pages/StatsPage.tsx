@@ -37,7 +37,10 @@ function StatsPage() {
 
   const handleSearchChange = (value: string) => {
     void navigate({
-      search: { q: value || undefined },
+      search: (prev) => ({
+        ...prev,
+        q: value || undefined,
+      }),
       replace: true,
     });
   };
