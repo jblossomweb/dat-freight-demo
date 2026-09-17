@@ -9,7 +9,7 @@ interface FetchApiStatsParams {
 const fetchApiStats = async (
   { quickSearch }: FetchApiStatsParams = {},
 ): Promise<ApiStatsResponse> => {
-  const url = new URL('/loads/stats', getApiBaseUrl());
+  const url = new URL(`${getApiBaseUrl()}/loads/stats`);
 
   if (quickSearch) {
     url.searchParams.set('quickSearch', quickSearch);

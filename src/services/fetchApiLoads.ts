@@ -36,7 +36,7 @@ const fetchApiLoads = async ({
   filterModel,
   quickSearch,
 }: FetchApiLoadsParams): Promise<FetchApiLoadsResult> => {
-  const url = new URL('/loads', getApiBaseUrl());
+  const url = new URL(`${getApiBaseUrl()}/loads`);
 
   url.searchParams.set('startRow', String(startRow));
   url.searchParams.set('endRow', String(endRow));

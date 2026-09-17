@@ -15,7 +15,15 @@ describe('getApiBaseUrl', () => {
 
     const getApiBaseUrl = await loadGetApiBaseUrl();
 
-    expect(getApiBaseUrl()).toEqual(new URL('https://api.example.com'));
+    expect(getApiBaseUrl()).toEqual('https://api.example.com');
+  });
+
+  it('returns a valid configured API URL that ends in /api', async () => {
+    vi.stubEnv('VITE_API_BASE_URL', 'https://api.example.com/api');
+
+    const getApiBaseUrl = await loadGetApiBaseUrl();
+
+    expect(getApiBaseUrl()).toEqual('https://api.example.com/api');
   });
 
   it('throws an error when the API URL is not configured', async () => {
