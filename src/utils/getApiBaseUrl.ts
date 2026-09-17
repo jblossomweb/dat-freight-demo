@@ -1,6 +1,6 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string | undefined;
 
-const getApiBaseUrl = (): URL => {
+const getApiBaseUrl = (): string => {
   if (!API_BASE_URL) {
     throw new Error(
       'The API data source is not configured. ' +
@@ -17,7 +17,8 @@ const getApiBaseUrl = (): URL => {
     );
   }
 
-  return new URL(API_BASE_URL);
+  // validate it via the URL cast above, but return a string
+  return API_BASE_URL;
 };
 
 export default getApiBaseUrl;

@@ -11,7 +11,7 @@ interface ApiLoadResponse {
 }
 
 const fetchApiLoadById = async (id: string): Promise<Load> => {
-  const url = new URL(`/load/${encodeURIComponent(id)}`, getApiBaseUrl());
+  const url = new URL(`${getApiBaseUrl()}/load/${encodeURIComponent(id)}`);
   const response = await fetch(url);
 
   if (!response.ok) {

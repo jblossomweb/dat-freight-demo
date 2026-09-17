@@ -5,7 +5,7 @@ import type { Load } from '@/types/Load';
 import fetchApiLoadById from './fetchApiLoadById';
 
 vi.mock('@/utils/getApiBaseUrl', () => ({
-  default: () => new URL('https://api.example.com'),
+  default: () => 'https://api.example.com',
 }));
 
 const load: Load = {

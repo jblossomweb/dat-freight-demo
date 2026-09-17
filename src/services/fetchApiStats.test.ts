@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import fetchApiStats from './fetchApiStats';
 
 vi.mock('@/utils/getApiBaseUrl', () => ({
-  default: () => new URL('https://api.example.com'),
+  default: () => 'https://api.example.com',
 }));
 
 let fetchMock: ReturnType<typeof vi.fn>;
