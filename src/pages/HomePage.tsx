@@ -164,7 +164,7 @@ function HomePage() {
           >
             <ListItem>
               <Link
-                href={`${getApiBaseUrl()}/docs`}
+                href={`${getApiBaseUrl()}/docs/`}
                 target="_blank"
                 rel="noopener noreferrer"
                 sx={{ display: 'inline-flex', alignItems: 'center', lineHeight: 1.5 }}
