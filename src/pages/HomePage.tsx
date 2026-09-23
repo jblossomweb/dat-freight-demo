@@ -117,7 +117,7 @@ function HomePage() {
           >
             <ListItem>
               <Link
-                href="http://dat-freight-demo-storybook.s3-website-us-west-2.amazonaws.com/"
+                href="https://dat-freight-demo-storybook.jblossom.io"
                 target="_blank"
                 rel="noopener noreferrer"
                 sx={{ display: 'inline-flex', alignItems: 'center', lineHeight: 1.5 }}
