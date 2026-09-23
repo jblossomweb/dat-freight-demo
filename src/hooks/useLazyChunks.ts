@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface LazyLoadedComponent<Props = object> {
   default: React.ComponentType<Props>;
@@ -12,16 +12,6 @@ const useLazyChunks = <Props = object>(
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | undefined>();
 
-  const track = useCallback(() => {
-    lazyLoad()
-      .catch(() => {
-        setError(new Error(errorMessage));
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, [lazyLoad, errorMessage]);
-
   useEffect(() => {
     lazyLoad()
       .catch(() => {
@@ -32,13 +22,7 @@ const useLazyChunks = <Props = object>(
       });
   }, [lazyLoad, errorMessage]);
 
-  const start = useCallback(() => {
-    setIsLoading(true);
-    setError(undefined);
-    track();
-  }, [track]);
-
-  return { isLoading, error, start };
+  return { isLoading, error };
 };
 
 export default useLazyChunks;

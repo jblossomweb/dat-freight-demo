@@ -41,11 +41,10 @@ function FreightLoadsPage() {
   const prefetchApiLoads = usePrefetchApiLoads(search, dataSource === 'api');
 
   // track state of lazy loader
-  const lazyChunks = useLazyChunks(lazyloadLoadsTable);
+  const lazyTable = useLazyChunks(lazyloadLoadsTable);
 
   const handleDataSourceChange = (mode: DataSource) => {
     setDataSource(mode);
-    lazyChunks.start();
     filterModel.onFilterChange({});
   };
 
@@ -61,9 +60,9 @@ function FreightLoadsPage() {
 
   const isDataLoading =  loadsJson.isLoading || loadsApi.isLoading || prefetchApiLoads.isLoading;
   const isGridLoading = isJson ? loadsJson.isLoading : loadsApi.isLoading;
-  const isLoading = lazyChunks.isLoading || isDataLoading;
+  const isLoading = lazyTable.isLoading || isDataLoading;
 
-  const error = lazyChunks.error ?? (isJson
+  const error = lazyTable.error ?? (isJson
     ? loadsJson.error
     : loadsApi.error ?? prefetchApiLoads.error);
 
