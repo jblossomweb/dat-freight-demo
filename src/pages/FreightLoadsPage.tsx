@@ -2,7 +2,7 @@ import type { Load } from '@/types/Load';
 import type { DataSource } from '@/types/DataSource';
 
 import { useNavigate, useSearch } from '@tanstack/react-router';
-import { Suspense, useState, useEffect, useCallback } from 'react';
+import { Suspense } from 'react';
 import lazyPreload from '@/utils/lazyPreload';
 
 import Box from '@mui/material/Box';
@@ -14,6 +14,7 @@ import useFilterModel from '@/hooks/useFilterModel';
 import useLoadsJson from '@/hooks/useLoadsJson';
 import useLoadsApi from '@/hooks/useLoadsApi';
 import usePrefetchApiLoads from '@/hooks/usePrefetchApiLoads';
+import useLazyChunks from '@/hooks/useLazyChunks';
 
 import FreightLoadsTemplate from '@/templates/FreightLoadsTemplate';
 import SearchInput from '@/components/inputs/SearchInput';
@@ -30,8 +31,6 @@ function FreightLoadsPage() {
   const navigate = useNavigate({ from });
   const search = queryStringParams.q ?? '';
   const [dataSource, setDataSource] = useDataSource();
-  const [tableChunkLoading, setTableChunkLoading] = useState(true);
-  const [tableChunkError, setTableChunkError] = useState<Error | undefined>();
   const filterModel = useFilterModel<Load>();
 
   const isJson = dataSource === 'json';
@@ -41,35 +40,12 @@ function FreightLoadsPage() {
   // fill the cache, so we don't get a loading flash when the table first renders
   const prefetchApiLoads = usePrefetchApiLoads(search, dataSource === 'api');
 
-  const trackTableChunkLoad = useCallback(() => {
-    lazyloadLoadsTable()
-      .catch(() => {
-        setTableChunkError(new Error('Failed to load code-split table chunk.'));
-      })
-      .finally(() => {
-        setTableChunkLoading(false);
-      });
-  }, []);
-
-  useEffect(() => {
-    lazyloadLoadsTable()
-      .catch(() => {
-        setTableChunkError(new Error('Failed to load code-split table chunk.'));
-      })
-      .finally(() => {
-        setTableChunkLoading(false);
-      });
-  }, []);
-
-  const startTableChunkLoad = useCallback(() => {
-    setTableChunkLoading(true);
-    setTableChunkError(undefined);
-    trackTableChunkLoad();
-  }, [trackTableChunkLoad]);
+  // track state of lazy loader
+  const lazyChunks = useLazyChunks(lazyloadLoadsTable);
 
   const handleDataSourceChange = (mode: DataSource) => {
     setDataSource(mode);
-    startTableChunkLoad();
+    lazyChunks.start();
     filterModel.onFilterChange({});
   };
 
@@ -85,16 +61,15 @@ function FreightLoadsPage() {
 
   const isDataLoading =  loadsJson.isLoading || loadsApi.isLoading || prefetchApiLoads.isLoading;
   const isGridLoading = isJson ? loadsJson.isLoading : loadsApi.isLoading;
-  const isLoading = tableChunkLoading || isDataLoading;
+  const isLoading = lazyChunks.isLoading || isDataLoading;
 
-  const error = tableChunkError ?? (isJson
+  const error = lazyChunks.error ?? (isJson
     ? loadsJson.error
     : loadsApi.error ?? prefetchApiLoads.error);
 
   return (
     <FreightLoadsTemplate>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 2 }}>
-        {/* {debug} */}
         <SearchInput
           placeholder="Search Loads..."
           ariaLabel="Search Loads"
