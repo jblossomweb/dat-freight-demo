@@ -70,12 +70,14 @@ jobs:
           S3_BUCKET="dat-freight-demo-storybook"
           S3_REGION="$(aws s3api get-bucket-location --bucket "$S3_BUCKET" --query 'LocationConstraint' --output text)"
           if [[ "$S3_REGION" == "None" ]]; then S3_REGION="us-east-1"; fi
+          SUBDOMAIN_URL="https://${S3_BUCKET}.jblossom.io/"
           CLOUDFRONT_URL="https://$(aws cloudfront get-distribution --id '${{ secrets.STORYBOOK_DISTRIBUTION_ID }}' --query 'Distribution.DomainName' --output text)"
           S3_WEBSITE_URL="http://${S3_BUCKET}.s3-website-${S3_REGION}.amazonaws.com/"
           echo "CloudFront URL: $CLOUDFRONT_URL"
           echo "S3 website URL: $S3_WEBSITE_URL"
           echo "cloudfront_url=$CLOUDFRONT_URL" >> "$GITHUB_OUTPUT"
           echo "s3_website_url=$S3_WEBSITE_URL" >> "$GITHUB_OUTPUT"
+          echo "subdomain_url=$SUBDOMAIN_URL" >> "$GITHUB_OUTPUT"
 
       - name: Report Storybook Deployment
         uses: ./.github/actions/report-workflow
@@ -84,6 +86,7 @@ jobs:
           status: success
           commit: ${{ github.sha }}
           deployment-links: |
+            | Subdomain  | [${{ steps.storybook-url.outputs.subdomain_url }}](${{ steps.storybook-url.outputs.subdomain_url }}) |
             | CloudFront | [${{ steps.storybook-url.outputs.cloudfront_url }}](${{ steps.storybook-url.outputs.cloudfront_url }}) |
             | S3 website | [${{ steps.storybook-url.outputs.s3_website_url }}](${{ steps.storybook-url.outputs.s3_website_url }}) |
           comment-on-pr: 'true'
